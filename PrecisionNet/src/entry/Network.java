@@ -9,7 +9,7 @@ import java.util.*;
 public class Network {
 	int[][] ajMatrix;
 	Node[] nodes;
-	Vector interfaces;
+	Vector interactions;
 	Vector pathes;
 	int value;
 	Vector valueVec;
@@ -26,11 +26,11 @@ public class Network {
 	public void setNodes(Node[] nodes) {
 		this.nodes = nodes;
 	}
-	public Vector getInterfaces() {
-		return interfaces;
+	public Vector getInteractions() {
+		return interactions;
 	}
-	public void setInterfaces(Vector interfaces) {
-		interfaces = interfaces;
+	public void setInteractions(Vector interactions) {
+		interactions = interactions;
 	}
 	public Vector getPathes() {
 		return pathes;
