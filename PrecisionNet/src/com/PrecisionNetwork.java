@@ -20,8 +20,8 @@ public class PrecisionNetwork {
 		Network inNetwork = fi.readNetworkfromFile("", "");
 		
 		//Alternative input
-		DatabaseIO di = new DatabaseIO();
-		Network inNetwork1 = di.readNetworkfromDB();
+		//DatabaseIO di = new DatabaseIO();
+		//Network inNetwork1 = di.readNetworkfromDB();
 		
 		int[][] adjMatrix = inNetwork.getAjMatrix();
 		Node[] nodes = inNetwork.getNodes();
