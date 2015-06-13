@@ -18,6 +18,11 @@ public class PrecisionNetwork {
 		//get input
 		FileIO fi = new FileIO();
 		Network inNetwork = fi.readNetworkfromFile("", "");
+		
+		//Alternative input
+		DatabaseIO di = new DatabaseIO();
+		Network inNetwork1 = di.readNetworkfromDB();
+		
 		int[][] adjMatrix = inNetwork.getAjMatrix();
 		Node[] nodes = inNetwork.getNodes();
 		HashMap confidenceSet = fi.readHashMapfromFile("", "");
