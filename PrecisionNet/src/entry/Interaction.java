@@ -7,23 +7,23 @@ import java.util.*;
  *
  */
 public class Interaction {
-	String nodeA;
-	String nodeB;
+	Node nodeA;
+	Node nodeB;
 	int nodeAIndex;
 	int nodeBIndex;
 	int value;
 	Vector valueVec;
 	
-	public String getNodeA() {
+	public Node getNodeA() {
 		return nodeA;
 	}
-	public void setNodeA(String nodeA) {
+	public void setNodeA(Node nodeA) {
 		this.nodeA = nodeA;
 	}
-	public String getNodeB() {
+	public Node getNodeB() {
 		return nodeB;
 	}
-	public void setNodeB(String nodeB) {
+	public void setNodeB(Node nodeB) {
 		this.nodeB = nodeB;
 	}
 	public int getNodeAIndex() {
@@ -50,5 +50,7 @@ public class Interaction {
 	public void setValueVec(Vector valueVec) {
 		this.valueVec = valueVec;
 	}
+	
+
 
 }

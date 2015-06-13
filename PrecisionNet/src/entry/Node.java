@@ -14,7 +14,7 @@ public class Node {
 	String annotation;
 	int value;
 	Vector valueVec;
-	Vector adjNodes; //adjecent nodes
+	Vector<Node> adjNodes; //adjecent nodes
 	public String getNodename() {
 		return nodename;
 	}

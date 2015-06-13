@@ -10,13 +10,15 @@ import entry.*;
  */
 
 public class Path {
-	LinkedList nodes;
+	LinkedList<Node> nodes;
 	double value;
 	Vector valueVec;
-	public LinkedList getNodes() {
+	Vector<Interaction> interactions;
+	
+	public LinkedList<Node> getNodes() {
 		return nodes;
 	}
-	public void setNodes(LinkedList nodes) {
+	public void setNodes(LinkedList<Node> nodes) {
 		this.nodes = nodes;
 	}
 	public double getValue() {
@@ -30,6 +32,12 @@ public class Path {
 	}
 	public void setValueVec(Vector valueVec) {
 		this.valueVec = valueVec;
+	}
+	public Vector<Interaction> getInteractions() {
+		return interactions;
+	}
+	public void setInteractions(Vector<Interaction> interactions) {
+		this.interactions = interactions;
 	}
 
 }
