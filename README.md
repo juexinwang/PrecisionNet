@@ -10,3 +10,4 @@ EGIT Plugin (3.7.1)
 
 Ref:
 EGit Tutorial for Eclipse (http://eclipsesource.com/blogs/tutorials/egit-tutorial/)
+ClassDiagram (http://www.objectaid.com/class-diagram)
