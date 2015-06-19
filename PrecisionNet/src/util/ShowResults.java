@@ -1,5 +1,6 @@
 package util;
 import entry.*;
+import java.util.*;
 
 /**
  * show results
@@ -12,7 +13,16 @@ public class ShowResults {
 	 * show path as results
 	 * @param path
 	 */
-	public void showPath(Path path){
+	public void showPath(Vector<Path> paths){
+		for(int i=0;i<paths.size();i++)
+		{
+			Path current=paths.get(i);
+			for(int j=0;j<current.nodes.size();j++)
+			{
+				System.out.println(current.nodes.get(j).getNodename());
+			}
+		}
+		
 		//TODO
 	}
 	

@@ -21,7 +21,7 @@ public class CalculateNetwork {
 	 * @param targetFuncTag: 0 for simplest distance, 1 for confidence/nodesnumber
 	 * @return shortest path
 	 */
-	public Network calculateN2Nalgorithm(int[][] adjMatrix, Node[] nodes, HashMap confidenceSet, Vector startPoint, Vector endPoint, boolean storeTag, int targetFuncTag){
+	public Network calculateN2Nalgorithm(int[][] adjMatrix, Vector confidenceSet, Vector startPoint, Vector endPoint, boolean storeTag, int targetFuncTag){
 		Network network = new Network();
 		//TODO
 		return network;

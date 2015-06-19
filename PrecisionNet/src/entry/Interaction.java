@@ -13,7 +13,16 @@ public class Interaction {
 	int nodeBIndex;
 	int value;
 	Vector valueVec;
-	
+	public Interaction()
+	{
+	}
+	public Interaction(Node a, Node b)
+	{
+		this.nodeA=a;
+		this.nodeB=b;
+		this.nodeAIndex=a.getIndex();
+		this.nodeBIndex=b.getIndex();
+	}
 	public Node getNodeA() {
 		return nodeA;
 	}

@@ -12,9 +12,27 @@ import entry.*;
 public class Node {
 	String nodename;
 	String annotation;
-	int value;
+	public int index;
+	public int value;
 	Vector valueVec;
-	Vector<Node> adjNodes; //adjecent nodes
+	public Node previous;
+	public Map<Node,Integer> adjNodes=new HashMap(); //adjecent nodes
+	public Node(String name)
+	{
+		this.nodename=name;
+	}
+	public Node()
+	{
+		
+	}
+	public int getIndex()
+	{
+		return this.index;
+	}
+	public void setIndex(int index)
+	{
+		this.index=index;
+	}
 	public String getNodename() {
 		return nodename;
 	}
@@ -39,11 +57,11 @@ public class Node {
 	public void setValueVec(Vector valueVec) {
 		this.valueVec = valueVec;
 	}
-	public Vector getAdjNodes() {
-		return adjNodes;
-	}
-	public void setAdNodes(Vector adjNodes) {
-		this.adjNodes = adjNodes;
-	}
+//	public Vector getAdjNodes() {
+//		return adjNodes;
+//	}
+//	public void setAdNodes(Vector adjNodes) {
+//		this.adjNodes = adjNodes;
+//	}
 
 }
