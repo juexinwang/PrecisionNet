@@ -14,8 +14,12 @@ public class Node {
 	String annotation;
 	public int index;
 	public int value;
+	public int g=Integer.MAX_VALUE;
+	public int h=Integer.MAX_VALUE;
 	Vector valueVec;
 	public Node previous;
+	public Vector<Node> down=new Vector();
+	public Vector<Node> up=new Vector();
 	public Map<Node,Integer> adjNodes=new HashMap(); //adjecent nodes
 	public Node(String name)
 	{

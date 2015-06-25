@@ -66,6 +66,16 @@ public class SimpleTest {
 		Vector<Path> paths=sp.dijkstra(inNetwork, confidenceSet, startPoint, endPoint);
 		ShowResults sh=new ShowResults();
 		sh.showPath(paths);
+		
+		//test astar
+		ShortestPath sp2 = new ShortestPath();
+		Vector<Path> paths2=sp.astar(inNetwork, confidenceSet, startPoint, endPoint);
+		for(Node p:inNetwork.nodes.values())
+		{
+			System.out.println(p.getNodename()+" "+p.g+" "+p.h);
+		}
+		ShowResults sh2=new ShowResults();
+		sh2.showPath(paths2);
 	}
 	
 	public static void main(String args[]){

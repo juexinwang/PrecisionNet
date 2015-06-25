@@ -19,8 +19,9 @@ public class ShowResults {
 			Path current=paths.get(i);
 			for(int j=0;j<current.nodes.size();j++)
 			{
-				System.out.println(current.nodes.get(j).getNodename());
+				System.out.print(current.nodes.get(j).getNodename()+" ");
 			}
+			System.out.println();
 		}
 		
 		//TODO
