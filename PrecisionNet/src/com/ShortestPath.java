@@ -136,30 +136,128 @@ public class ShortestPath {
 	 * @param heuristicTag
 	 * @return
 	 */
-	public Path astar(int[][] adjMatrix, Node[] nodes, Vector confidenceSet, Vector startPoint, Vector endPoint, boolean storeTag, int targetFuncTag, int heuristicTag){
-		Path path = new Path();
+	public Vector<Path> astar(Network net, Vector confidenceSet, Vector startPoint, Vector endPoint)
+	{
+		for(Interaction i : net.getInteractions())
+		{
+			i.getNodeA().down.add(i.getNodeB());
+			i.getNodeB().up.add(i.getNodeA());
+		}
+		Vector<Path> paths = new Vector();
+		for(int i=0;i<startPoint.size();i++)
+		{
+			Node start=new Node();    
+			Node end=new Node();
+			if (!net.containsKey(startPoint.get(i).toString()))
+			{
+				System.err.printf("Graph doesn't contain start node \"%s\"\n", startPoint.get(i).toString());
+		    }
+			else
+			{
+				start=net.getByName(startPoint.get(i).toString());
+			}
+			for(int j=0;j<startPoint.size();j++)
+			{
+	//			Vector<Node> tempH=net.getNodes();
+	//			Vector<Node> tempG=net.getNodes();
+				if (!net.containsKey(endPoint.get(j).toString()))
+				{
+					System.err.printf("Graph doesn't contain end node \"%s\"\n", endPoint.get(j).toString());
+			    }
+				else
+				{
+					end=net.getByName(endPoint.get(j).toString());
+				}
+				end.h=0;
+				start.g=0;
+				heuristicMethod(net, end);
+				for (Node v : net.nodes.values()) 
+				{
+					v.previous = v.getNodename().equals(start.getNodename())? start : null;
+					v.value= v.g+v.h;
+				}
+				astar(net, start, end, confidenceSet);
+				
+				Path p=new Path();
+				p.getPath(net, end.getNodename());
+				paths.add(p);			
+			}
+		}
+		
+		
 		//TODO
-		return path;
+		return paths;
 	}
 	
-	
-	
-	/**
-	 * heuristic method
-	 * @param adjMatrix
-	 * @param nodes
-	 * @param confidenceSet
-	 * @param startPoint
-	 * @param endPoint
-	 * @param node: input, specific nodes
-	 * @param targetFuncTag
-	 * @param heuristicTag: define different types of heuristic method
-	 * @return heruistic value for speicific node
-	 */
-	public double heuristicMethod(int[][] adjMatrix, Node[] nodes, Vector confidenceSet, Vector startPoint, Vector endPoint, Node node, int targetFuncTag, int heuristicTag){
-		double hvalue = 0.0;
+	public void heuristicMethod(Network net, Node endnode)
+	{
+		if(!(endnode.up.isEmpty()))
+		{
+			for(Node i:endnode.up)
+			{
+				int temp=endnode.h+1;
+				if(temp>=i.h){}
+				else
+				{
+					i.h=temp;
+					heuristicMethod(net, i);
+				}
+				
+				
+			}
+		}
 		//TODO
-		return hvalue;
+		
+	}
+	
+	public void astar(Network net, Node S, Node E, Vector C)
+	{
+		Vector<Node> open=new Vector();
+		Vector<Node> close=new Vector();
+		open.add(S);
+		while(!(close.contains(E))&&!(open.isEmpty()))
+		{
+			Node lowF=new Node();
+			lowF.value=Integer.MAX_VALUE;
+			for(Node i:open)
+			{
+				if(i.value<=lowF.value)
+				{
+					lowF=i;
+				}
+			}
+			open.remove(lowF);
+			close.add(lowF);
+			for(Node j:lowF.down)
+			{
+				if(close.contains(j))continue;
+				else if(!(open.contains(j)))
+				{
+					open.add(j);
+					j.previous=lowF;
+					if(C.contains(j.getNodename()))
+						j.g=lowF.g+0;
+					else
+						j.g=lowF.g+3;
+					j.value=j.g+j.h;
+				}
+				else if(open.contains(j))
+				{
+					int pass;
+					if(C.contains(j.getNodename()))
+						pass=lowF.g+0;
+					else
+						pass=lowF.g+3;
+					if(pass<j.g)
+					{
+						j.previous=lowF;
+						j.g=pass;
+						j.value=j.g+j.h;
+					}
+				}	
+			}
+		}
+		
 	}
 	
 	/**
