@@ -18,7 +18,7 @@ public class SimpleTest {
 	void doTest(){
 		//input file
 		FileIO fi = new FileIO();
-		Network inNetwork = fi.readNetworkfromFile("C:/Users/JiangYX/git/testNetwork.txt");
+		Network inNetwork = fi.readNetworkfromFile("resource/testNetwork.txt");
 		
 		//test nodes in the network
 		Vector<Node> a=inNetwork.getNodes();
