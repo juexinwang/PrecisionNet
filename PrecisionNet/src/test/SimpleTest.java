@@ -41,10 +41,11 @@ public class SimpleTest {
 		}
 		
 		//test confidenceSet
-		Vector confidenceSet = fi.readConfidVectorfromFile("resource/testNetwork.txt");
-		for(int i=0;i<confidenceSet.size();i++)
+		Hashtable<Node,Integer> confidenceSet = fi.readConfidVectorfromFile("resource/testNetwork.txt",inNetwork);
+//		for(int i=0;i<confidenceSet.size();i++)
+		for(Map.Entry<Node,Integer> i : confidenceSet.entrySet())
 		{
-			System.out.println(confidenceSet.get(i));
+			System.out.println(i.getKey().getNodename());
 		}
 		
 		//test startPoint
@@ -69,13 +70,16 @@ public class SimpleTest {
 		
 		//test astar
 		ShortestPath sp2 = new ShortestPath();
-		Vector<Path> paths2=sp.astar(inNetwork, confidenceSet, startPoint, endPoint);
+		System.out.println("abc");
+		Vector<Path> paths2=sp2.astar(inNetwork, confidenceSet, startPoint, endPoint);
+		
 		for(Node p:inNetwork.nodes.values())
 		{
 			System.out.println(p.getNodename()+" "+p.g+" "+p.h);
 		}
 		ShowResults sh2=new ShowResults();
 		sh2.showPath(paths2);
+		
 	}
 	
 	public static void main(String args[]){

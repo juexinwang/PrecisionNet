@@ -24,23 +24,23 @@ public class ShortestPath {
 	 * @param targetFuncTag: 0 for simplest distance, 1 for confidence/nodesnumber
 	 * @return shortest path
 	 */
-	public Vector<Path> dijkstra(Network net, Vector confidenceSet, Vector startPoint, Vector endPoint)
+	public Vector<Path> dijkstra(Network net, Hashtable confidenceSet, Vector startPoint, Vector endPoint)
 	{
-		for(Interaction i : net.getInteractions())
+		for(Map.Entry<Interaction,Integer> i:net.interactions.entrySet())
 		{
-			if(confidenceSet.contains(i.getNodeA().getNodename())&&confidenceSet.contains(i.getNodeB().getNodename()))
-			{
-				i.getNodeA().adjNodes.put(i.getNodeB(), 0);
-			}
-			else if(confidenceSet.contains(i.getNodeA().getNodename())||confidenceSet.contains(i.getNodeB().getNodename()))
-			{
-				i.getNodeA().adjNodes.put(i.getNodeB(), 1);
-			}
-			else
-			{
-				i.getNodeA().adjNodes.put(i.getNodeB(), 2);
-			}
-			
+//			if(confidenceSet.contains(i.getKey().getNodeA().getNodename())&&confidenceSet.contains(i.getKey().getNodeB().getNodename()))
+//			{
+//				i.getKey().getNodeA().adjNodes.put(i.getKey().getNodeB(), 0);
+//			}
+//			else if(confidenceSet.contains(i.getKey().getNodeA().getNodename())||confidenceSet.contains(i.getKey().getNodeB().getNodename()))
+//			{
+//				i.getKey().getNodeA().adjNodes.put(i.getKey().getNodeB(), 1);
+//			}
+//			else
+//			{
+//				i.getKey().getNodeA().adjNodes.put(i.getKey().getNodeB(), 2);
+//			}
+			i.getKey().getNodeA().down.add(i.getKey().getNodeB());
 		}
 		Vector<Path> paths = new Vector();
 		int num=0;
@@ -70,7 +70,8 @@ public class ShortestPath {
 				for (Node v : net.nodes.values()) {
 	//		         v.previous = v == source ? source : null;
 					 v.previous = v.getNodename().equals(start.getNodename())? start : null;
-			         v.value= v.getNodename().equals(start.getNodename())? 0 : Integer.MAX_VALUE;
+			         v.value= v.getNodename().equals(start.getNodename())? 1 : 0;
+			         v.num= v.getNodename().equals(start.getNodename())? 1 : 0;
 	//		         v.dist = v == source ? 0 : Integer.MAX_VALUE;		         
 			         q.add(v);
 			      }
@@ -87,33 +88,36 @@ public class ShortestPath {
 	}
 	public void dijkstra(Vector<Node> q)
 	{
-		Node u, v;
+		Node u;
 		while(!q.isEmpty())
 		{
-			u=pullLowest(q);
-			if (u.value == Integer.MAX_VALUE) break;
-			for(Map.Entry<Node, Integer> a : u.adjNodes.entrySet())
+			u=pullHighest(q);
+			if (u.value == 0) break;
+	//		for(Map.Entry<Node, Integer> a : u.adjNodes.entrySet())
+			for(Node v : u.down)
 			{
-				v=a.getKey();
-				int temp=u.value+a.getValue();
-				if (temp < v.value) { // shorter path to neighbour found
+	//			v=a.getKey();
+	//			int temp=u.value+a.getValue();
+				double temp=targetFunc(u,v,"v");
+				if (temp > v.value) { // shorter path to neighbour found
 		               q.remove(v);
 		               v.value = temp;
 		               v.previous = u;
+		               v.num=u.num+1;
 		               q.add(v);
 		            } 
 			}
 		}
 		
 	}
-	public Node pullLowest(Vector<Node> q)
+	public Node pullHighest(Vector<Node> q)
 	{
 		
 		int index=0;
-		int value=Integer.MAX_VALUE;
+		double value=0;
 		for(int j=0;j<q.size();j++)
 		{
-			if(q.get(j).value<=value)
+			if(q.get(j).value>=value)
 			{
 				index=j;
 				value=q.get(j).value;
@@ -136,12 +140,12 @@ public class ShortestPath {
 	 * @param heuristicTag
 	 * @return
 	 */
-	public Vector<Path> astar(Network net, Vector confidenceSet, Vector startPoint, Vector endPoint)
+	public Vector<Path> astar(Network net, Hashtable<Node,Integer> confidenceSet, Vector startPoint, Vector endPoint)
 	{
-		for(Interaction i : net.getInteractions())
+		for(Map.Entry<Interaction,Integer> i:net.interactions.entrySet())
 		{
-			i.getNodeA().down.add(i.getNodeB());
-			i.getNodeB().up.add(i.getNodeA());
+			i.getKey().getNodeA().down.add(i.getKey().getNodeB());
+			i.getKey().getNodeB().up.add(i.getKey().getNodeA());
 		}
 		Vector<Path> paths = new Vector();
 		for(int i=0;i<startPoint.size();i++)
@@ -156,7 +160,7 @@ public class ShortestPath {
 			{
 				start=net.getByName(startPoint.get(i).toString());
 			}
-			for(int j=0;j<startPoint.size();j++)
+			for(int j=0;j<endPoint.size();j++)
 			{
 	//			Vector<Node> tempH=net.getNodes();
 	//			Vector<Node> tempG=net.getNodes();
@@ -168,16 +172,20 @@ public class ShortestPath {
 				{
 					end=net.getByName(endPoint.get(j).toString());
 				}
-				end.h=0;
-				start.g=0;
+				end.h=end.weight;
+				end.num=1;
+				start.g=start.weight;
+				start.num=1;
 				heuristicMethod(net, end);
+				System.out.println("check1");
 				for (Node v : net.nodes.values()) 
 				{
 					v.previous = v.getNodename().equals(start.getNodename())? start : null;
 					v.value= v.g+v.h;
 				}
+				System.out.println("check2");
 				astar(net, start, end, confidenceSet);
-				
+				System.out.println("check3");
 				Path p=new Path();
 				p.getPath(net, end.getNodename());
 				paths.add(p);			
@@ -195,11 +203,13 @@ public class ShortestPath {
 		{
 			for(Node i:endnode.up)
 			{
-				int temp=endnode.h+1;
-				if(temp>=i.h){}
+	//			int temp=endnode.h+1;
+				double temp=targetFunc(endnode,i,"h");
+				if(temp<=i.h){}
 				else
 				{
 					i.h=temp;
+					i.num=endnode.num+1;
 					heuristicMethod(net, i);
 				}
 				
@@ -210,48 +220,52 @@ public class ShortestPath {
 		
 	}
 	
-	public void astar(Network net, Node S, Node E, Vector C)
+	public void astar(Network net, Node S, Node E, Hashtable<Node,Integer> C)
 	{
 		Vector<Node> open=new Vector();
 		Vector<Node> close=new Vector();
 		open.add(S);
 		while(!(close.contains(E))&&!(open.isEmpty()))
 		{
-			Node lowF=new Node();
-			lowF.value=Integer.MAX_VALUE;
+			Node highF=new Node();
+			highF.value=0;
 			for(Node i:open)
 			{
-				if(i.value<=lowF.value)
+				if(i.value>=highF.value)
 				{
-					lowF=i;
+					highF=i;
 				}
 			}
-			open.remove(lowF);
-			close.add(lowF);
-			for(Node j:lowF.down)
+			open.remove(highF);
+			close.add(highF);
+			for(Node j:highF.down)
 			{
 				if(close.contains(j))continue;
 				else if(!(open.contains(j)))
 				{
 					open.add(j);
-					j.previous=lowF;
-					if(C.contains(j.getNodename()))
-						j.g=lowF.g+0;
-					else
-						j.g=lowF.g+3;
+					j.previous=highF;
+			//		if(C.contains(j.getNodename()))
+			//			j.g=lowF.g+0;
+			//		else
+			//			j.g=lowF.g+3;
+					j.g=targetFunc(highF,j,"g");
+					j.num=highF.num+1;
 					j.value=j.g+j.h;
 				}
 				else if(open.contains(j))
 				{
-					int pass;
-					if(C.contains(j.getNodename()))
-						pass=lowF.g+0;
-					else
-						pass=lowF.g+3;
-					if(pass<j.g)
+					double pass;
+		//			if(C.contains(j.getNodename()))
+		//				pass=lowF.g+0;
+		//			else
+		//				pass=lowF.g+3;
+					pass=targetFunc(highF,j,"g");
+					if(pass>j.g)
 					{
-						j.previous=lowF;
+						j.previous=highF;
 						j.g=pass;
+						j.num=highF.num+1;
 						j.value=j.g+j.h;
 					}
 				}	
@@ -271,8 +285,24 @@ public class ShortestPath {
 	 * @param targetFuncTag: 0 for simplest distance, 1 for confidence/nodesnumber
 	 * @return target function of specific path
 	 */
-	public double targetFunc(int[][] adjMatrix, Node[] nodes, Vector confidenceSet, Vector startPoint, Vector endPoint, Path path, int targetFuncTag){
+	public double targetFunc(Node S, Node E, String f)
+	{
 		double value =0.0;
+		if(f.equals("v"))
+		{
+			value=(S.value+E.weight)/(S.num+1);
+		}
+		else if(f.equals("g"))
+		{
+			value=(S.g+E.weight)/(S.num+1);
+		}
+		else if(f.equals("h"))
+		{
+			value=(S.h+E.weight)/(S.num+1);
+		}
+		
+	//	E.value=value;
+	//	E.num=S.num+1;
 		//TODO
 		return value;
 	}

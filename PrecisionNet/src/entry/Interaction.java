@@ -11,6 +11,7 @@ public class Interaction {
 	Node nodeB;
 	int nodeAIndex;
 	int nodeBIndex;
+	public int weight;
 	int value;
 	Vector valueVec;
 	public Interaction()

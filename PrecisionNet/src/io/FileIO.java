@@ -36,7 +36,7 @@ public class FileIO {
     			int index=0;
     			for(String each:care)
     			{
-    				String[] interac=each.split("-");
+    				String[] interac=each.split("#");
     				Node a=new Node(interac[0]);
     				Node b=new Node(interac[1]);    				
     				if(ht.containsKey(interac[0]))
@@ -60,17 +60,33 @@ public class FileIO {
     					network.addNode(b);
     				}
     				Interaction interab=new Interaction(a,b);
-    				network.addInteraction(interab);
+    				if(interac.length==3)
+    				{
+    					network.addInteraction(interab,Integer.valueOf(interac[2]));
+    					interab.weight=Integer.valueOf(interac[2]);
+    				}
+    				else
+    				{
+    					network.addInteraction(interab,0);
+    					interab.weight=0;
+    				}
+    				
     			}
     			int num=ht.size();
     			int[][] matrix=new int[num][num];
-    			Vector<Interaction> inters=network.getInteractions();
-    			for(int i=0;i<inters.size();i++)
+    			for(Map.Entry<Interaction,Integer> i:network.interactions.entrySet())
     			{
-    				int index_node1=inters.get(i).getNodeAIndex();
-    				int index_node2=inters.get(i).getNodeBIndex();
+    				int index_node1=i.getKey().getNodeAIndex();
+    				int index_node2=i.getKey().getNodeBIndex();
     				matrix[index_node1][index_node2]=1;
     			}
+ //   			Vector<Interaction> inters=network.getInteractions();
+ //   			for(int i=0;i<inters.size();i++)
+ //   			{
+  //  				int index_node1=inters.get(i).getNodeAIndex();
+  //  				int index_node2=inters.get(i).getNodeBIndex();
+  //  				matrix[index_node1][index_node2]=1;
+  //  			}
     			network.setAjMatrix(matrix);
     		}
             
@@ -120,10 +136,10 @@ public class FileIO {
 	 * @param filename
 	 * @return
 	 */
-	public Vector readConfidVectorfromFile(String filename){
+	public Hashtable<Node,Integer> readConfidVectorfromFile(String filename, Network net){
 		File file=new File(filename);
 		BufferedReader reader = null;
-		Vector vec = new Vector();
+		Hashtable<Node,Integer> vec = new Hashtable();
 		try
 		{
 			reader = new BufferedReader(new FileReader(file));
@@ -137,7 +153,19 @@ public class FileIO {
 	    			String[] care=tail.split(",");
 	    			for(String each:care)
 	    			{
-	    				vec.add(each);
+	    				String[] com=each.split("#");
+	    				if(com.length==2)
+	    				{
+	    					vec.put(net.getByName(com[0]),Integer.valueOf(com[1]));
+	   // 					vec.put(com[0], Integer.valueOf(com[1]));
+	    					net.getByName(com[0]).weight=Integer.valueOf(com[1]);
+	    				}
+	    				else
+	    				{
+	    					vec.put(net.getByName(com[0]),1);
+	  //  					vec.put(com[0], 1);
+	    					net.getByName(com[0]).weight=1;
+	    				}
 	    			}
 	    		}
 	    	}

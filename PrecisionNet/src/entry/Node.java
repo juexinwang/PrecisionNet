@@ -12,10 +12,12 @@ import entry.*;
 public class Node {
 	String nodename;
 	String annotation;
+	public int weight;
+	public int num;
 	public int index;
-	public int value;
-	public int g=Integer.MAX_VALUE;
-	public int h=Integer.MAX_VALUE;
+	public double value;
+	public double g;
+	public double h;
 	Vector valueVec;
 	public Node previous;
 	public Vector<Node> down=new Vector();
@@ -49,7 +51,7 @@ public class Node {
 	public void setAnnotation(String annotation) {
 		this.annotation = annotation;
 	}
-	public int getValue() {
+	public double getValue() {
 		return value;
 	}
 	public void setValue(int value) {

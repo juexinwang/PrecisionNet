@@ -10,7 +10,8 @@ public class Network {
 	int[][] ajMatrix;
 //	Node[] nodes;
 	public Map<String,Node> nodes;
-	Vector<Interaction> interactions;
+//	Vector<Interaction> interactions;
+	public Hashtable<Interaction,Integer> interactions=new Hashtable();
 	Vector<Path> pathes;
 	int value;
 	Vector valueVec;
@@ -82,26 +83,24 @@ public class Network {
 //	public void setNodes(Node[] nodes) {
 //		this.nodes = nodes;
 //	}
-	public Vector<Interaction> getInteractions() {
-		return interactions;
-	}
-	public void addInteraction(Interaction ab)
+//	public Set<Interaction> getInteractions() {
+//		return interactions.keySet();
+//		
+//	}
+	public void addInteraction(Interaction ab, int i)
 	{
-		Vector<Interaction> temp=this.getInteractions();
-		if(temp==null)
+		
+		if(this.interactions.containsKey(ab))
 		{
-			Vector<Interaction> current=new Vector();
-			current.add(ab);
-			this.interactions=current;
 		}
 		else
 		{
-			this.interactions.add(ab);
+			this.interactions.put(ab, i);
 		}
 	}
-	public void setInteractions(Vector<Interaction> interactions) {
-		this.interactions = interactions;
-	}
+//	public void setInteractions(Vector<Interaction> interactions) {
+//		this.interactions = interactions;
+//	}
 	public Vector<Path> getPathes() {
 		return pathes;
 	}
