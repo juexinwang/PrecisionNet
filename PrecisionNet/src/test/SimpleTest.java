@@ -18,7 +18,7 @@ public class SimpleTest {
 	void doTest(){
 		//input file
 		FileIO fi = new FileIO();
-		Network inNetwork = fi.readNetworkfromFile("resource/testNetwork.txt");
+		Network inNetwork = fi.readNetworkfromFile("C:/Users/JiangYX/git/testNetwork.txt");
 		
 		//test nodes in the network
 		Vector<Node> a=inNetwork.getNodes();
@@ -41,7 +41,7 @@ public class SimpleTest {
 		}
 		
 		//test confidenceSet
-		Hashtable<Node,Integer> confidenceSet = fi.readConfidVectorfromFile("resource/testNetwork.txt",inNetwork);
+		Hashtable<Node,Integer> confidenceSet = fi.readConfidVectorfromFile("C:/Users/JiangYX/git/testNetwork.txt",inNetwork);
 //		for(int i=0;i<confidenceSet.size();i++)
 		for(Map.Entry<Node,Integer> i : confidenceSet.entrySet())
 		{
@@ -49,14 +49,14 @@ public class SimpleTest {
 		}
 		
 		//test startPoint
-		Vector startPoint = fi.readStartVectorfromFile("resource/testNetwork.txt");
+		Vector startPoint = fi.readStartVectorfromFile("C:/Users/JiangYX/git/testNetwork.txt");
 		for(int i=0;i<startPoint.size();i++)
 		{
 			System.out.println(startPoint.get(i));
 		}
 		
 		//test endPoint
-		Vector endPoint = fi.readEndVectorfromFile("resource/testNetwork.txt");
+		Vector endPoint = fi.readEndVectorfromFile("C:/Users/JiangYX/git/testNetwork.txt");
 		for(int i=0;i<endPoint.size();i++)
 		{
 			System.out.println(endPoint.get(i));
