@@ -15,11 +15,10 @@ public class PrecisionNetwork {
 	 * main process
 	 */
 	void dowork(){
-		/*
 		//get input
 		FileIO fi = new FileIO();
 		Network inNetwork = fi.readNetworkfromFile("C:/Users/JiangYX/git/testNetwork.txt");
-		
+/*		
 		//Alternative input
 		//DatabaseIO di = new DatabaseIO();
 		//Network inNetwork1 = di.readNetworkfromDB();
@@ -46,13 +45,13 @@ public class PrecisionNetwork {
 		
 		//output
 		sr.showNetwork(outNetwork);
-		*/
 	}
 	
 	
 	public static void main(String args[]){
 		PrecisionNetwork app = new PrecisionNetwork();
 		app.dowork();
+		*/
 	}
 
 }
