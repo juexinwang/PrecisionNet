@@ -15,6 +15,7 @@ public class PrecisionNetwork {
 	 * main process
 	 */
 	void dowork(){
+		/*
 		//get input
 		FileIO fi = new FileIO();
 		Network inNetwork = fi.readNetworkfromFile("C:/Users/JiangYX/git/testNetwork.txt");
@@ -45,6 +46,7 @@ public class PrecisionNetwork {
 		
 		//output
 		sr.showNetwork(outNetwork);
+		*/
 	}
 	
 	

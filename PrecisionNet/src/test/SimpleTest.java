@@ -63,23 +63,19 @@ public class SimpleTest {
 		}
 		
 		//test Dijstra
-		ShortestPath sp = new ShortestPath();
-		Vector<Path> paths=sp.dijkstra(inNetwork, confidenceSet, startPoint, endPoint);
-		ShowResults sh=new ShowResults();
-		sh.showPath(paths);
+		//ShortestPath sp = new ShortestPath();
+		//Vector<Path> paths=sp.dijkstra(inNetwork, confidenceSet, startPoint, endPoint);
+		//ShowResults sh=new ShowResults();
 		
 		//test astar
 		ShortestPath sp2 = new ShortestPath();
-		System.out.println("abc");
 		Vector<Path> paths2=sp2.astar(inNetwork, confidenceSet, startPoint, endPoint);
-		
 		for(Node p:inNetwork.nodes.values())
 		{
 			System.out.println(p.getNodename()+" "+p.g+" "+p.h);
 		}
 		ShowResults sh2=new ShowResults();
 		sh2.showPath(paths2);
-		
 	}
 	
 	public static void main(String args[]){
