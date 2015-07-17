@@ -1,6 +1,7 @@
 package util;
 import entry.*;
 import java.util.*;
+import java.io.*;
 
 /**
  * show results
@@ -13,16 +14,34 @@ public class ShowResults {
 	 * show path as results
 	 * @param path
 	 */
-	public void showPath(Vector<Path> paths){
-		for(int i=0;i<paths.size();i++)
-		{
+	public void showPath(Vector<Path> paths, String file){
+		try {
+			FileWriter writer = new FileWriter(file);
+		    for(int i=0;i<paths.size();i++)
+		    {
 			Path current=paths.get(i);
-			for(int j=0;j<current.nodes.size();j++)
-			{
-				System.out.print(current.nodes.get(j).getNodename()+" ");
-			}
-			System.out.println();
-		}
+			
+			
+	            //打开一个写文件器，构造函数中的第二个参数true表示以追加形式写文件
+	            
+	            for(int j=current.nodes.size()-1;j>=0;j--)
+				{
+					writer.write(current.nodes.get(j).getNodename()+" ");
+				}
+	            writer.write("\r\n");
+	            
+	        
+			
+	//		for(int j=current.nodes.size()-1;j>=0;j--)
+	//		{
+	//			System.out.print(current.nodes.get(j).getNodename()+" ");
+	//		}
+	//		System.out.println();
+		    }
+		    writer.close();
+		} catch (IOException e) {
+            e.printStackTrace();
+        }
 		
 		//TODO
 	}

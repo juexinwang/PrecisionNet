@@ -19,6 +19,18 @@ public class Network {
 	{
 		nodes=new HashMap();
 	}
+	public Interaction getInteraction(Node a, Node b)
+	{
+		Interaction r=new Interaction();
+		for(Map.Entry<Interaction, Integer> i : this.interactions.entrySet())
+		{
+			if((i.getKey().getNodeA()==a)&&(i.getKey().getNodeB()==b))
+			{
+				r=i.getKey();
+			}
+		}
+		return r;
+	}
 	public boolean containsKey(String nodename)
 	{
 		if(nodes.containsKey(nodename))

@@ -18,68 +18,67 @@ public class SimpleTest {
 	void doTest(){
 		//input file
 		FileIO fi = new FileIO();
-		Network inNetwork = fi.readNetworkfromFile("resource/testNetwork.txt");
+		Network inNetwork = fi.readNetworkfromFile("resource/newNetwork.txt");
 		
 		//test nodes in the network
-		Vector<Node> a=inNetwork.getNodes();
-		for(int i=0;i<a.size();i++)
-		{
-			System.out.print(a.get(i).getNodename());
-			System.out.println(a.get(i).getIndex());
-		}
+//		Vector<Node> a=inNetwork.getNodes();
+//		for(int i=0;i<a.size();i++)
+//		{
+//			System.out.print(a.get(i).getNodename());
+//			System.out.println(a.get(i).getIndex());
+//		}
 		
 		//test AjMatrix in the network
-		int[][] b=inNetwork.getAjMatrix();
-		for(int i=0;i<b.length;i++)
-		{
-			for(int j=0;j<b.length;j++)
-			{
-				System.out.print(b[i][j]);
-				System.out.print(" ");
-			}
-			System.out.println("\n");
-		}
+//		int[][] b=inNetwork.getAjMatrix();
+//		for(int i=0;i<b.length;i++)
+//		{
+//			for(int j=0;j<b.length;j++)
+//			{
+//				System.out.print(b[i][j]);
+///				System.out.print(" ");
+//			}
+//			System.out.println("\n");
+//		}
 		
 		//test confidenceSet
-		Hashtable<Node,Integer> confidenceSet = fi.readConfidVectorfromFile("resource/testNetwork.txt",inNetwork);
+		Hashtable<Node,Integer> confidenceSet = fi.readConfidVectorfromFile("resource/newConfi.txt",inNetwork);
 //		for(int i=0;i<confidenceSet.size();i++)
-		for(Map.Entry<Node,Integer> i : confidenceSet.entrySet())
-		{
-			System.out.println(i.getKey().getNodename());
-		}
+//		for(Map.Entry<Node,Integer> i : confidenceSet.entrySet())
+//		{
+//			System.out.println(i.getKey().getNodename());
+//		}
 		
 		//test startPoint
-		Vector startPoint = fi.readStartVectorfromFile("resource/testNetwork.txt");
+		Vector startPoint = fi.readStartVectorfromFile("resource/newRoot.txt");
 		for(int i=0;i<startPoint.size();i++)
 		{
 			System.out.println(startPoint.get(i));
 		}
 		
 		//test endPoint
-		Vector endPoint = fi.readEndVectorfromFile("resource/testNetwork.txt");
-		for(int i=0;i<endPoint.size();i++)
-		{
-			System.out.println(endPoint.get(i));
-		}
+		Vector endPoint = fi.readEndVectorfromFile("resource/newLEAF.txt");
+//		for(int i=0;i<endPoint.size();i++)
+//		{
+//			System.out.println(endPoint.get(i));
+//		}
 		
 		//test Dijstra
-		ShortestPath sp = new ShortestPath();
+/*		ShortestPath sp = new ShortestPath();
 		Vector<Path> paths=sp.dijkstra(inNetwork, confidenceSet, startPoint, endPoint);
 		ShowResults sh=new ShowResults();
-		sh.showPath(paths);
-/*		
+		sh.showPath(paths,"resource/Dijstra_result.txt");
+*/	
 		//test astar
 		ShortestPath sp2 = new ShortestPath();
-		System.out.println("abc");
 		Vector<Path> paths2=sp2.astar(inNetwork, confidenceSet, startPoint, endPoint);
 		
-		for(Node p:inNetwork.nodes.values())
-		{
-			System.out.println(p.getNodename()+" "+p.g+" "+p.h);
-		}
+//		for(Node p:inNetwork.nodes.values())
+//		{
+//			System.out.println(p.getNodename()+" "+p.g+" "+p.h);
+//		}
 		ShowResults sh2=new ShowResults();
-		sh2.showPath(paths2);
-*/
+		sh2.showPath(paths2,"resource/Astar_result.txt");
+
 		
 	}
 	

@@ -79,7 +79,12 @@ public class ShortestPath {
 				
 				Path p=new Path();
 				p.getPath(net, end.getNodename());
-				paths.add(p);
+				String from=p.nodes.get(p.nodes.size()-1).getNodename();
+				if(from.equals(start.getNodename()))
+				{
+					paths.add(p);
+				}
+				
 			}
 		}
 		
@@ -188,7 +193,12 @@ public class ShortestPath {
 				System.out.println("check3");
 				Path p=new Path();
 				p.getPath(net, end.getNodename());
-				paths.add(p);			
+				String from=p.nodes.get(p.nodes.size()-1).getNodename();
+				if(from.equals(start.getNodename()))
+				{
+					paths.add(p);
+				}
+						
 			}
 		}
 		
