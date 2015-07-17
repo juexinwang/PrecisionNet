@@ -1,0 +1,7 @@
+a bp b
+b bp c
+c bp e
+e bp f
+b bp e
+a bp d
+d bp f

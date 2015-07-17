@@ -1,0 +1,13 @@
+<http://www.inferico.com/kegg-cmpo.owl#inst27_KEGGMap_hsa05220_Abst_Gene_hsa_1029>	s
+<http://www.inferico.com/kegg-cmpo.owl#inst47_KEGGMap_hsa05220_Abst_Gene_hsa_1029>	s
+<http://www.inferico.com/kegg-cmpo.owl#inst2_KEGGMap_hsa05220_Abst_Gene_hsa_2122family>	s
+<http://www.inferico.com/kegg-cmpo.owl#inst14_KEGGMap_hsa05220_Abst_Gene_hsa_2122>	s
+<http://www.inferico.com/kegg-cmpo.owl#inst5_KEGGMap_hsa05220_Abst_Gene_hsa_25family>	s
+<http://www.inferico.com/kegg-cmpo.owl#inst5_KEGGMap_hsa05220_Abst_Gene_hsa_25family>	s
+<http://www.inferico.com/kegg-cmpo.owl#inst11_KEGGMap_hsa05220_Abst_Gene_hsa_7040family>	s
+<http://www.inferico.com/kegg-cmpo.owl#inst11_KEGGMap_hsa05220_Abst_Gene_hsa_7040family>	s
+<http://www.inferico.com/kegg-cmpo.owl#inst11_KEGGMap_hsa05220_Abst_Gene_hsa_7040family>	s
+<http://www.inferico.com/kegg-cmpo.owl#inst17_KEGGMap_hsa05220_Abst_Gene_hsa_7046>	s
+<http://www.inferico.com/kegg-cmpo.owl#inst16_KEGGMap_hsa05220_Abst_Gene_hsa_7048>	s
+<http://www.inferico.com/kegg-cmpo.owl#inst10_KEGGMap_hsa05220_Abst_Gene_hsa_7157>	s
+<http://www.inferico.com/kegg-cmpo.owl#inst2_KEGGMap_hsa05220_Abst_Gene_hsa_2122family>	s
