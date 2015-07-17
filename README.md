@@ -32,3 +32,9 @@ test:
 SimpleTest: juexinwang
 
 
+Algrotihm Ref:
+https://en.wikipedia.org/wiki/K_shortest_path_routing
+https://en.wikipedia.org/wiki/Yen's_algorithm
+https://www.ics.uci.edu/~eppstein/pubs/Epp-SJC-98.pdf
+
+
