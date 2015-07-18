@@ -49,14 +49,14 @@ public class SimpleTest {
 //		}
 		
 		//test startPoint
-		Vector startPoint = fi.readStartVectorfromFile("resource/newRoot.txt");
+		Vector startPoint = fi.readStartVectorfromFile("resource/newRoot.txt",inNetwork);
 		for(int i=0;i<startPoint.size();i++)
 		{
 			System.out.println(startPoint.get(i));
 		}
 		
 		//test endPoint
-		Vector endPoint = fi.readEndVectorfromFile("resource/newLEAF.txt");
+		Vector endPoint = fi.readEndVectorfromFile("resource/newLEAF.txt",inNetwork);
 //		for(int i=0;i<endPoint.size();i++)
 //		{
 //			System.out.println(endPoint.get(i));
@@ -77,7 +77,7 @@ public class SimpleTest {
 //			System.out.println(p.getNodename()+" "+p.g+" "+p.h);
 //		}
 		ShowResults sh2=new ShowResults();
-		sh2.showPath(paths2,"resource/Astar_result.txt");
+		sh2.showPath(paths2,"resource/hahahahaha.txt");
 
 		
 	}

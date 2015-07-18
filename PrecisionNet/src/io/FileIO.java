@@ -125,6 +125,7 @@ public class FileIO {
 	    	{
 	    		vec.put(net.getByName(tempString), 1);
 	    		net.getByName(tempString).weight=1;
+	    		net.getByName(tempString).flag=net.getByName(tempString).flag+"C";
 	/*    		String head=tempString.split(":")[0];
 	    		String tail=tempString.split(":")[1];
 	    		if(head.equals("confidenceSet"))
@@ -168,7 +169,7 @@ public class FileIO {
 		return vec;
 	}
 	
-	public Vector readStartVectorfromFile(String filename){
+	public Vector readStartVectorfromFile(String filename,Network net){
 		File file=new File(filename);
 		BufferedReader reader = null;
 		Vector vec = new Vector();
@@ -179,6 +180,7 @@ public class FileIO {
 	    	while ((tempString = reader.readLine()) != null) 
 	    	{
 	    		vec.add(tempString);
+	    		net.getByName(tempString).flag=net.getByName(tempString).flag+"R";
 	/*    		String head=tempString.split(":")[0];
 	    		String tail=tempString.split(":")[1];
 	    		if(head.equals("startPoint"))
@@ -212,7 +214,7 @@ public class FileIO {
 		return vec;
 	}
 	
-	public Vector readEndVectorfromFile(String filename){
+	public Vector readEndVectorfromFile(String filename,Network net){
 		File file=new File(filename);
 		BufferedReader reader = null;
 		Vector vec = new Vector();
@@ -223,6 +225,7 @@ public class FileIO {
 	    	while ((tempString = reader.readLine()) != null) 
 	    	{
 	    		vec.add(tempString);
+	    		net.getByName(tempString).flag=net.getByName(tempString).flag+"L";
      /*
 	    		String head=tempString.split(":")[0];
 	    		String tail=tempString.split(":")[1];

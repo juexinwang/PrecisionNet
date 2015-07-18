@@ -10,6 +10,7 @@ import entry.*;
  */
 
 public class Node {
+	public String flag="";
 	String nodename;
 	String annotation;
 	public int weight;
