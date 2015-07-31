@@ -10,7 +10,9 @@ import entry.*;
  */
 
 public class Node {
+	public String gene_name="";
 	public String flag="";
+	public String pathway="";
 	String nodename;
 	String annotation;
 	public int weight;
@@ -21,6 +23,8 @@ public class Node {
 	public double h;
 	Vector valueVec;
 	public Node previous;
+	public Vector<Node> cla=new Vector();
+	public Vector<Node> becla=new Vector();
 	public Vector<Node> down=new Vector();
 	public Vector<Node> up=new Vector();
 	public Map<Node,Integer> adjNodes=new HashMap(); //adjecent nodes

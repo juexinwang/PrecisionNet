@@ -43,7 +43,7 @@ public class ShortestPath {
 			i.getKey().getNodeA().down.add(i.getKey().getNodeB());
 		}
 		Vector<Path> paths = new Vector();
-		int num=0;
+		int num=1;
 		for(int i=0;i<startPoint.size();i++)
 		{
 			Node start=new Node();
@@ -70,18 +70,34 @@ public class ShortestPath {
 				for (Node v : net.nodes.values()) {
 	//		         v.previous = v == source ? source : null;
 					 v.previous = v.getNodename().equals(start.getNodename())? start : null;
-			         v.value= v.getNodename().equals(start.getNodename())? 1 : 0;
+	//				 v.value= v.getNodename().equals(start.getNodename())? 0.1 : 0;
+	//				 v.value= (v.getNodename().equals(start.getNodename()))&&(confidenceSet.containsKey(v))? 1 : 0;
+					 if(v.getNodename().equals(start.getNodename()))
+					 {
+						 v.value=0.002;
+						 if(confidenceSet.containsKey(v))
+						 {
+							 v.value=1.002;
+						 }
+					 }
+					 else
+					 {
+						 v.value=0;
+					 }
 			         v.num= v.getNodename().equals(start.getNodename())? 1 : 0;
 	//		         v.dist = v == source ? 0 : Integer.MAX_VALUE;		         
 			         q.add(v);
 			      }
 				dijkstra(q);
-				
+				System.out.println("getting path "+num);
+				num++;
 				Path p=new Path();
 				p.getPath(net, end.getNodename());
 				String from=p.nodes.get(p.nodes.size()-1).getNodename();
 				if(from.equals(start.getNodename()))
 				{
+					p.value=end.value;
+		//			System.out.println(p.value);
 					paths.add(p);
 				}
 				
@@ -93,6 +109,7 @@ public class ShortestPath {
 	}
 	public void dijkstra(Vector<Node> q)
 	{
+		
 		Node u;
 		while(!q.isEmpty())
 		{
@@ -101,6 +118,11 @@ public class ShortestPath {
 	//		for(Map.Entry<Node, Integer> a : u.adjNodes.entrySet())
 			for(Node v : u.down)
 			{
+				
+				if(!q.contains(v))
+				{
+					continue;
+				}
 	//			v=a.getKey();
 	//			int temp=u.value+a.getValue();
 				double temp=targetFunc(u,v,"v");
@@ -108,7 +130,7 @@ public class ShortestPath {
 		               q.remove(v);
 		               v.value = temp;
 		               v.previous = u;
-		               v.num=u.num+1;
+		               v.num=u.num+u.adjNodes.get(v);
 		               q.add(v);
 		            } 
 			}
@@ -166,7 +188,7 @@ public class ShortestPath {
 				start=net.getByName(startPoint.get(i).toString());
 			}
 			for(int j=0;j<endPoint.size();j++)
-			{
+			{		
 	//			Vector<Node> tempH=net.getNodes();
 	//			Vector<Node> tempG=net.getNodes();
 				if (!net.containsKey(endPoint.get(j).toString()))
@@ -196,6 +218,7 @@ public class ShortestPath {
 				String from=p.nodes.get(p.nodes.size()-1).getNodename();
 				if(from.equals(start.getNodename()))
 				{
+					p.value=end.value;
 					paths.add(p);
 				}
 						
@@ -219,7 +242,7 @@ public class ShortestPath {
 				else
 				{
 					i.h=temp;
-					i.num=endnode.num+1;
+					i.num=endnode.num+endnode.adjNodes.get(i);
 					heuristicMethod(net, i);
 				}
 				
@@ -300,15 +323,23 @@ public class ShortestPath {
 		double value =0.0;
 		if(f.equals("v"))
 		{
-			value=(S.value+E.weight)/(S.num+1);
+			if(S.cla.contains(E))
+			{
+				value=(S.value*S.num+0)/(S.num+S.adjNodes.get(E));
+			}
+			else
+			{
+				value=(S.value*S.num+E.weight)/(S.num+S.adjNodes.get(E));
+			}
+			
 		}
 		else if(f.equals("g"))
 		{
-			value=(S.g+E.weight)/(S.num+1);
+			value=(S.g*S.num+E.weight)/(S.num+S.adjNodes.get(E));
 		}
 		else if(f.equals("h"))
 		{
-			value=(S.h+E.weight)/(S.num+1);
+			value=(S.h*S.num+E.weight)/(S.num+S.adjNodes.get(E));
 		}
 		
 	//	E.value=value;

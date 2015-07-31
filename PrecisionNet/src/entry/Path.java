@@ -1,4 +1,5 @@
 package entry;
+
 import io.*;
 
 import java.util.*;
@@ -11,12 +12,18 @@ import entry.*;
  *
  */
 
-public class Path {
+public class Path implements Comparable<Path>{
 //	LinkedList<Node> nodes;
 	public Vector<Node> nodes=new Vector();
-	double value;
+	public double value;
 	Vector valueVec;
 	Vector<Interaction> interactions;
+	
+	public int compareTo(Path path)
+	{  
+		double tem=(path.value - this.value)*10000000;
+        return (int)tem;  
+    } 
 	
 	public Vector<Node> getPath(Network net, String nodename) {
 		Node end=net.getByName(nodename);

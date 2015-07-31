@@ -9,7 +9,7 @@ import java.util.*;
 public class Interaction {
 	Node nodeA;
 	Node nodeB;
-	public String type;
+	public String type="";
 	int nodeAIndex;
 	int nodeBIndex;
 	public int weight;
