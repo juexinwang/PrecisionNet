@@ -62,13 +62,8 @@ public class Network {
 	public void setAjMatrix(int[][] ajMatrix) {
 		this.ajMatrix = ajMatrix;
 	}
-	public Vector<Node> getNodes() {
-		Vector<Node> a=new Vector();
-	    for(String s:nodes.keySet())
-	    {
-	    	a.add(nodes.get(s));
-	    }
-		return a;
+	public Map getNodes() {
+		return this.nodes;
 	}
 	public void addNode(Node node)
 	{

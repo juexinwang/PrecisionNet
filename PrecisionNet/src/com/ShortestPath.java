@@ -1,8 +1,6 @@
 package com;
 
-
-
-
+import java.math.*;
 import java.util.*;
 
 import entry.*;
@@ -13,6 +11,22 @@ import entry.*;
  *
  */
 public class ShortestPath {
+	
+	double alphavalue;
+	double tmpOpvalue;
+	double multiOpvalue;
+	double maxpath;
+	double confOpvalue;
+	
+	public ShortestPath(Network network, Hashtable confidenceSet){
+		this.alphavalue = 1.0/(network.getNodes().size()+1);
+		this.tmpOpvalue = network.getNodes().size();
+		this.multiOpvalue=1.0/(confidenceSet.size()+alphavalue)/(Math.log(1/tmpOpvalue));
+		this.maxpath=500;
+		this.confOpvalue=confidenceSet.size();
+		
+	}
+	
 	/**
 	 * dijkstra algorithm
 	 * @param adjmatrix
@@ -24,7 +38,7 @@ public class ShortestPath {
 	 * @param targetFuncTag: 0 for simplest distance, 1 for confidence/nodesnumber
 	 * @return shortest path
 	 */
-	public Vector<Path> dijkstra(Network net, Hashtable confidenceSet, Vector startPoint, Vector endPoint)
+	public Vector<Path> dijkstra(Network net, Hashtable confidenceSet, Vector startPoint, Vector endPoint, String categoryStr)
 	{
 		for(Map.Entry<Interaction,Integer> i:net.interactions.entrySet())
 		{
@@ -74,11 +88,14 @@ public class ShortestPath {
 	//				 v.value= (v.getNodename().equals(start.getNodename()))&&(confidenceSet.containsKey(v))? 1 : 0;
 					 if(v.getNodename().equals(start.getNodename()))
 					 {
-						 v.value=0.002;
-						 if(confidenceSet.containsKey(v))
-						 {
-							 v.value=1.002;
-						 }
+						 //old version
+						 //v.value=alphavalue;
+						 //if(confidenceSet.containsKey(v))
+						 //{
+							// v.value=1+alphavalue;
+						 //}
+						 //Initial target function for start genes
+						 v.value=targetFuncinitial(v, confidenceSet, categoryStr);
 					 }
 					 else
 					 {
@@ -88,7 +105,7 @@ public class ShortestPath {
 	//		         v.dist = v == source ? 0 : Integer.MAX_VALUE;		         
 			         q.add(v);
 			      }
-				dijkstra(q);
+				dijkstra(q,categoryStr);
 				System.out.println("getting path "+num);
 				num++;
 				Path p=new Path();
@@ -107,7 +124,7 @@ public class ShortestPath {
 		//TODO
 		return paths;
 	}
-	public void dijkstra(Vector<Node> q)
+	public void dijkstra(Vector<Node> q, String categoryStr)
 	{
 		
 		Node u;
@@ -125,7 +142,7 @@ public class ShortestPath {
 				}
 	//			v=a.getKey();
 	//			int temp=u.value+a.getValue();
-				double temp=targetFunc(u,v,"v");
+				double temp=targetFunc(u,v,categoryStr);
 				if (temp > v.value) { // shorter path to neighbour found
 		               q.remove(v);
 		               v.value = temp;
@@ -341,11 +358,61 @@ public class ShortestPath {
 		{
 			value=(S.h*S.num+E.weight)/(S.num+S.adjNodes.get(E));
 		}
+		else if(f.equals("v1")){//ersoy's idea
+			if(S.cla.contains(E))
+			{
+				value=((S.value+S.num/maxpath)*confOpvalue+0)/confOpvalue-(S.num+S.adjNodes.get(E))/maxpath;
+			}
+			else
+			{
+				value=((S.value+S.num/maxpath)*confOpvalue+E.weight)/confOpvalue-(S.num+S.adjNodes.get(E))/maxpath;
+			}
+			
+		}
+		else if(f.equals("v2")){//more delicate
+			if(S.cla.contains(E))
+			{
+				value=S.value/(Math.log(S.num/tmpOpvalue)+0)*(Math.log((S.num+S.adjNodes.get(E))/tmpOpvalue));
+			}
+			else
+			{
+				value=S.value/(Math.log(S.num/tmpOpvalue)+E.weight)*(Math.log((S.num+S.adjNodes.get(E))/tmpOpvalue));
+			}
+			
+		}
 		
 	//	E.value=value;
 	//	E.num=S.num+1;
 		//TODO
 		return value;
+	}
+	
+	public double targetFuncinitial(Node v, Hashtable confidenceSet, String f){
+		if(f.equals("v")){
+			 v.value=alphavalue;
+			 if(confidenceSet.containsKey(v))
+			 {
+				v.value=1+alphavalue;
+			 }
+			
+		}
+		else if(f.equals("v1")){
+			v.value=0-1.0/maxpath;
+			 if(confidenceSet.containsKey(v))
+			 {
+				 v.value=1.0/confOpvalue-1.0/maxpath;
+			 }
+		}
+		else if(f.equals("v2")){
+			v.value=alphavalue*multiOpvalue*(Math.log(1/tmpOpvalue));
+			 if(confidenceSet.containsKey(v))
+			 {
+				 v.value=(1+alphavalue)*multiOpvalue*(Math.log(1/tmpOpvalue));
+			 }
+			
+		}
+		return v.value;
+		
 	}
 	
 	

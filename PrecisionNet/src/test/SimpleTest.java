@@ -66,10 +66,12 @@ public class SimpleTest {
 		fi.readIDmapping("resource/Data for Juexin/7 List of all gene IDs and Names.csv", inNetwork);
 		
 		//test Dijstra
-		ShortestPath sp = new ShortestPath();
-		Vector<Path> paths=sp.dijkstra(inNetwork, confidenceSet, startPoint, endPoint);
+		ShortestPath sp = new ShortestPath(inNetwork, confidenceSet);
+		//Use different target function;
+		String str = "v1";
+		Vector<Path> paths=sp.dijkstra(inNetwork, confidenceSet, startPoint, endPoint, str);
 		ShowResults sh=new ShowResults();
-//		sh.showPath(paths,"resource/Data for Juexin/results/top50percent_collapse.txt",inNetwork,true,0.5);
+		//sh.showPath(paths,"resource/Data for Juexin/results/top10percent_collapse.txt",inNetwork,true,0.1);
 		double[] sz={0.1,0.2,0.3,0.4,0.5,1};
 		sh.showMulti(paths,"resource/Data for Juexin/newresults/", "collapse.txt", inNetwork, true, sz);
 		sh.showMulti(paths,"resource/Data for Juexin/newresults/", "uncollapse.txt", inNetwork, false, sz);
@@ -80,7 +82,7 @@ public class SimpleTest {
 		ShowResults sh2=new ShowResults();
 		sh2.showPath(paths2,"resource/hahahahaha.txt",iNetwork,false);
 */
-		
+		//
 	}
 	
 	public static void main(String args[]){
