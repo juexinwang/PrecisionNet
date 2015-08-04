@@ -73,7 +73,7 @@ public class SimpleTest {
 		ShowResults sh=new ShowResults();
 		//sh.showPath(paths,"resource/Data for Juexin/results/top10percent_collapse.txt",inNetwork,true,0.1);
 		double[] sz={0.1,0.2,0.3,0.4,0.5,1};
-		sh.showMulti(paths,"resource/Data for Juexin/newresults/", "collapse.txt", inNetwork, true, sz);
+//		sh.showMulti(paths,"resource/Data for Juexin/newresults/", "collapse.txt", inNetwork, true, sz);
 		sh.showMulti(paths,"resource/Data for Juexin/newresults/", "uncollapse.txt", inNetwork, false, sz);
 		/*	
 		//test astar

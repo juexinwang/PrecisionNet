@@ -72,7 +72,7 @@ public class ShowResults {
 		            		}
 			            }
 		            }
-		            writer3.write(line+" "+String.valueOf(current.value));
+		            writer3.write(line+" "+String.valueOf(current.value)+" "+current.confinum);
 		            writer3.write("\r\n");
 			    }
 			}

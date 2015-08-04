@@ -109,7 +109,7 @@ public class ShortestPath {
 				System.out.println("getting path "+num);
 				num++;
 				Path p=new Path();
-				p.getPath(net, end.getNodename());
+				p.getPath(net, end.getNodename(),confidenceSet);
 				String from=p.nodes.get(p.nodes.size()-1).getNodename();
 				if(from.equals(start.getNodename()))
 				{
@@ -231,7 +231,7 @@ public class ShortestPath {
 				astar(net, start, end, confidenceSet);
 				System.out.println("check3");
 				Path p=new Path();
-				p.getPath(net, end.getNodename());
+				p.getPath(net, end.getNodename(), confidenceSet);
 				String from=p.nodes.get(p.nodes.size()-1).getNodename();
 				if(from.equals(start.getNodename()))
 				{

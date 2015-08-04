@@ -216,6 +216,19 @@ public class FileIO {
         				interab.weight=0;
         				b.adjNodes.put(a, 0);
             		}
+            		else
+            		{
+            			interab.type=care[1];
+        				network.addInteraction(interab, 0);
+        				interab.weight=0;
+        				a.adjNodes.put(b, 0);
+        				
+        				interab=new Interaction(b,a);
+        				interab.type=care[1];
+        				network.addInteraction(interab, 0);
+        				interab.weight=0;
+        				b.adjNodes.put(a, 0);
+            		}
         		}
         		else if(m4.find())
         		{
@@ -362,31 +375,61 @@ public class FileIO {
     				String part1=m.group(1);
     				String part2=m.group(2);
     				String part3=m.group(3);
-    				String pattern2="#inst\\d*.*(hsa_\\d*)";
+    				String pattern2="#inst";
     				Pattern r2=Pattern.compile(pattern2);
     				Matcher m1=r2.matcher(part1);
     				Matcher m2=r2.matcher(part2);
     				Matcher m3=r2.matcher(part3);
-    				if((m1.find())&&(hsa.containsKey(m1.group(1)))&&(!part.containsKey(part1)))
+    				if((m1.find())&&(!part.containsKey(part1)))
     		        {
-    		            part.put(part1, 1);
-    		            vec.put(net.getByName(part1), 1);
-    		    		net.getByName(part1).weight=1;
-    		    		net.getByName(part1).flag=net.getByName(part1).flag+"C";      
+    					Pattern p=Pattern.compile("Gene_(hsa_[^_>]*?)[_>]");
+    			        Matcher pm=p.matcher(part1);
+    			        while(pm.find())
+    			        {
+    			        	if(hsa.containsKey(pm.group(1)))
+    			        	{
+    			        		part.put(part1, 1);
+    	    		            vec.put(net.getByName(part1), 1);
+    	    		    		net.getByName(part1).weight=1;
+    	    		    		net.getByName(part1).flag=net.getByName(part1).flag+"C"; 
+    	    		    		break;
+    			        	}
+    			        }
+    		                 
     		        }
-    				if((m2.find())&&(hsa.containsKey(m2.group(1)))&&(!part.containsKey(part2)))
+    				if((m2.find())&&(!part.containsKey(part2)))
     		        {
-    		            part.put(part2, 1);
-    		            vec.put(net.getByName(part2), 1);
-    		    		net.getByName(part2).weight=1;
-    		    		net.getByName(part2).flag=net.getByName(part2).flag+"C";      
+    					Pattern p=Pattern.compile("Gene_(hsa_[^_>]*?)[_>]");
+    			        Matcher pm=p.matcher(part2);
+    			        while(pm.find())
+    			        {
+    			        	if(hsa.containsKey(pm.group(1)))
+    			        	{
+    			        		part.put(part2, 1);
+    	    		            vec.put(net.getByName(part2), 1);
+    	    		    		net.getByName(part2).weight=1;
+    	    		    		net.getByName(part2).flag=net.getByName(part2).flag+"C";
+    	    		    		break;
+    			        	}
+    			        }
+    		                  
     		        }
-    				if((m3.find())&&(hsa.containsKey(m3.group(1)))&&(!part.containsKey(part3)))
+    				if((m3.find())&&(!part.containsKey(part3)))
     		        {
-    		            part.put(part3, 1);
-    		            vec.put(net.getByName(part3), 1);
-    		    		net.getByName(part3).weight=1;
-    		    		net.getByName(part3).flag=net.getByName(part3).flag+"C";      
+    					Pattern p=Pattern.compile("Gene_(hsa_[^_>]*?)[_>]");
+    			        Matcher pm=p.matcher(part3);
+    			        while(pm.find())
+    			        {
+    			        	if(hsa.containsKey(pm.group(1)))
+    			        	{
+    			        		part.put(part3, 1);
+    	    		            vec.put(net.getByName(part3), 1);
+    	    		    		net.getByName(part3).weight=1;
+    	    		    		net.getByName(part3).flag=net.getByName(part3).flag+"C";   
+    	    		    		break;
+    			        	}
+    			        }
+    		               
     		        }
     			}
     			else

@@ -18,6 +18,7 @@ public class Path implements Comparable<Path>{
 	public double value;
 	Vector valueVec;
 	Vector<Interaction> interactions;
+	public int confinum=0;
 	
 	public int compareTo(Path path)
 	{  
@@ -25,16 +26,19 @@ public class Path implements Comparable<Path>{
         return (int)tem;  
     } 
 	
-	public Vector<Node> getPath(Network net, String nodename) {
+	public Vector<Node> getPath(Network net, String nodename, Hashtable c) {
 		Node end=net.getByName(nodename);
-		
+		if(c.containsKey(end))
+		{
+			this.confinum++;
+		}
 		if (end == end.previous) {
             nodes.add(end);
          } else if (end.previous == null) {
             nodes.add(end);
          } else {
         	nodes.add(end);
-            this.getPath(net,end.previous.getNodename());
+            this.getPath(net,end.previous.getNodename(),c);
             
          }
 		
