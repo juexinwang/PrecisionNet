@@ -358,7 +358,7 @@ public class ShortestPath {
 		{
 			value=(S.h*S.num+E.weight)/(S.num+S.adjNodes.get(E));
 		}
-		else if(f.equals("v1")){//ersoy's idea
+		else if(f.equals("v1")){//ersoy's idea (Missunderstand)
 			if(S.cla.contains(E))
 			{
 				value=((S.value+S.num/maxpath)*confOpvalue+0)/confOpvalue-(S.num+S.adjNodes.get(E))/maxpath;
@@ -377,6 +377,17 @@ public class ShortestPath {
 			else
 			{
 				value=S.value/(Math.log(S.num/tmpOpvalue)+E.weight)*(Math.log((S.num+S.adjNodes.get(E))/tmpOpvalue));
+			}
+			
+		}
+		else if(f.equals("v3")){//ersoy's idea
+			if(S.cla.contains(E))
+			{
+				value=((S.value+S.num/maxpath)*S.num+0)/(S.num+S.adjNodes.get(E))-(S.num+S.adjNodes.get(E))/maxpath;
+			}
+			else
+			{
+				value=((S.value+S.num/maxpath)*S.num+E.weight)/(S.num+S.adjNodes.get(E))-(S.num+S.adjNodes.get(E))/maxpath;
 			}
 			
 		}
@@ -410,6 +421,13 @@ public class ShortestPath {
 				 v.value=(1+alphavalue)*multiOpvalue*(Math.log(1/tmpOpvalue));
 			 }
 			
+		}
+		else if(f.equals("v3")){
+			v.value=0-1.0/maxpath;
+			 if(confidenceSet.containsKey(v))
+			 {
+				 v.value=1.0-1.0/maxpath;
+			 }
 		}
 		return v.value;
 		
