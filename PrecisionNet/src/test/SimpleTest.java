@@ -68,7 +68,7 @@ public class SimpleTest {
 		//test Dijstra
 		ShortestPath sp = new ShortestPath(inNetwork, confidenceSet);
 		//Use different target function;
-		String str = "v1";
+		String str = "v3";
 		Vector<Path> paths=sp.dijkstra(inNetwork, confidenceSet, startPoint, endPoint, str);
 		ShowResults sh=new ShowResults();
 		//sh.showPath(paths,"resource/Data for Juexin/results/top10percent_collapse.txt",inNetwork,true,0.1);
