@@ -16,9 +16,14 @@ import java.util.*;
 public class SimpleTest {
 	
 	void doTest(){
+		//String inputfolder= "resource/Data for Juexin/";
+		String inputfolder= "C:\\Users\\wangjue\\Dropbox\\TCBI-DigitalBiology-Labs\\Data for Juexin 18 maps\\";
+		
+		
 		//input file
 		FileIO fi = new FileIO();
-		Network inNetwork = fi.readNetworkfromFile("resource/Data for Juexin/graph_only7_unique.txt");
+		//Network inNetwork = fi.readNetworkfromFile(inputfolder+"graph_only7_unique.txt");
+		Network inNetwork = fi.readNetworkfromFile(inputfolder+"graph_only18_unique.txt");
 		
 		
 		
@@ -43,7 +48,8 @@ public class SimpleTest {
 //		}
 		
 		//test confidenceSet
-		Hashtable<Node,Integer> confidenceSet = fi.readConfidVectorfromFile("resource/Data for Juexin/5 set_of_genes_for_chronic_myeloid_leukemia.csv","resource/Data for Juexin/graph_only7_unique.txt",inNetwork);
+		//Hashtable<Node,Integer> confidenceSet = fi.readConfidVectorfromFile(inputfolder+"5 set_of_genes_for_chronic_myeloid_leukemia.csv",inputfolder+"graph_only7_unique.txt",inNetwork);
+		Hashtable<Node,Integer> confidenceSet = fi.readConfidVectorfromFile(inputfolder+"5 set_of_genes_for_chronic_myeloid_leukemia.csv",inputfolder+"graph_only18_unique.txt",inNetwork);
 //		for(int i=0;i<confidenceSet.size();i++)
 //		for(Map.Entry<Node,Integer> i : confidenceSet.entrySet())
 //		{
@@ -51,24 +57,27 @@ public class SimpleTest {
 //		}
 		
 		//test startPoint
-		Vector startPoint = fi.readStartVectorfromFile("resource/Data for Juexin/1 root_nodes_7maps.csv",inNetwork);
+		//Vector startPoint = fi.readStartVectorfromFile("resource/Data for Juexin/1 root_nodes_7maps.csv",inNetwork);
+		Vector startPoint = fi.readStartVectorfromFile(inputfolder+"1 root_nodes_18maps.csv",inNetwork);
 //		for(int i=0;i<startPoint.size();i++)
 //		{
 //			System.out.println(startPoint.get(i));
 //		}
 		
 		//test endPoint
-		Vector endPoint = fi.readEndVectorfromFile("resource/Data for Juexin/2 leaf_nodes_7maps.csv",inNetwork);
+		//Vector endPoint = fi.readEndVectorfromFile("resource/Data for Juexin/2 leaf_nodes_7maps.csv",inNetwork);
+		Vector endPoint = fi.readEndVectorfromFile(inputfolder+"2 leaf_nodes_18maps.csv",inNetwork);
 //		for(int i=0;i<endPoint.size();i++)
 //		{
 //			System.out.println(endPoint.get(i));
 //		}
-		fi.readIDmapping("resource/Data for Juexin/7 List of all gene IDs and Names.csv", inNetwork);
+		//fi.readIDmapping("resource/Data for Juexin/7 List of all gene IDs and Names.csv", inNetwork);
+		fi.readIDmapping(inputfolder+"7 List of all gene IDs and Names.csv", inNetwork);
 		
 		//test Dijstra
 		ShortestPath sp = new ShortestPath(inNetwork, confidenceSet);
 		//Use different target function;
-		String str = "v3";
+		String str = "v2";
 		Vector<Path> paths=sp.dijkstra(inNetwork, confidenceSet, startPoint, endPoint, str);
 		ShowResults sh=new ShowResults();
 		//sh.showPath(paths,"resource/Data for Juexin/results/top10percent_collapse.txt",inNetwork,true,0.1);
