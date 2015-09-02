@@ -72,6 +72,7 @@ public class ShortestPath {
 			{
 				start=net.getByName(startPoint.get(i).toString());
 			}
+/*			
 			for(int j=0;j<endPoint.size();j++)
 			{	
 				if (!net.containsKey(endPoint.get(j).toString()))
@@ -82,20 +83,12 @@ public class ShortestPath {
 				{
 					end=net.getByName(endPoint.get(j).toString());
 				}
+*/			
 				Vector<Node> q =new Vector();
 				for (Node v : net.nodes.values()) {
-	//		         v.previous = v == source ? source : null;
 					 v.previous = v.getNodename().equals(start.getNodename())? start : null;
-	//				 v.value= v.getNodename().equals(start.getNodename())? 0.1 : 0;
-	//				 v.value= (v.getNodename().equals(start.getNodename()))&&(confidenceSet.containsKey(v))? 1 : 0;
 					 if(v.getNodename().equals(start.getNodename()))
 					 {
-						 //old version
-						 //v.value=alphavalue;
-						 //if(confidenceSet.containsKey(v))
-						 //{
-							// v.value=1+alphavalue;
-						 //}
 						 //Initial target function for start genes
 						 v.value=targetFuncinitial(v, confidenceSet, categoryStr);
 					 }
@@ -103,24 +96,44 @@ public class ShortestPath {
 					 {
 						 v.value=0;
 					 }
-			         v.num= v.getNodename().equals(start.getNodename())? 1 : 0;
-	//		         v.dist = v == source ? 0 : Integer.MAX_VALUE;		         
+			         v.num= v.getNodename().equals(start.getNodename())? 1 : 0;	         
 			         q.add(v);
 			      }
 				dijkstra(q,categoryStr);
 				System.out.println("getting path "+num);
 				num++;
+///*				
+				for(int j=0;j<endPoint.size();j++)
+				{	
+					if (!net.containsKey(endPoint.get(j).toString()))
+					{
+						System.err.printf("Graph doesn't contain end node \"%s\"\n", endPoint.get(j).toString());
+				    }
+					else
+					{
+						end=net.getByName(endPoint.get(j).toString());
+					}
+					Path p=new Path();
+					p.getPath(net, end.getNodename(),confidenceSet);
+					String from=p.nodes.get(p.nodes.size()-1).getNodename();
+					if(from.equals(start.getNodename()))
+					{
+						p.value=end.value;
+						paths.add(p);
+					}
+				}
+//*/
+/*				
 				Path p=new Path();
 				p.getPath(net, end.getNodename(),confidenceSet);
 				String from=p.nodes.get(p.nodes.size()-1).getNodename();
 				if(from.equals(start.getNodename()))
 				{
 					p.value=end.value;
-		//			System.out.println(p.value);
 					paths.add(p);
-				}
-				
+				}				
 			}
+*/				
 		}
 		
 		//TODO

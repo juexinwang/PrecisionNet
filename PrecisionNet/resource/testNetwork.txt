@@ -1,4 +1,0 @@
-network:a#b#,b#c#,c#e#,e#f#,b#e#,a#d#,d#f#
-confidenceSet:b#,e#
-startPoint:a,b
-endPoint:f

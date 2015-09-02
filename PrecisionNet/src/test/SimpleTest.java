@@ -17,7 +17,7 @@ public class SimpleTest {
 	
 	void doTest(){
 		//String inputfolder= "resource/Data for Juexin/";
-		String inputfolder= "C:\\Users\\wangjue\\Dropbox\\TCBI-DigitalBiology-Labs\\Data for Juexin 18 maps\\";
+		String inputfolder= "C:\\Users\\JiangYX\\Dropbox\\TCBI-DigitalBiology-Labs\\Data for Juexin 18 maps\\";
 		
 		
 		//input file

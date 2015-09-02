@@ -1,9 +1,0 @@
-disease_id,disease_name,gene_id,gene_name
-ds:H00004,Chronic myeloid leukemia (CML),hsa:1029,"CDKN2A, ARF, CDK4I, CDKN2, CMM2, INK4, INK4A, MLM, MTS-1, MTS1, P14, P14ARF, P16, P16-INK4A, P16INK4, P16INK4A, P19, P19ARF, TP16; cyclin-dependent kinase inhibitor 2A; K06621 cyclin-dependent kinase inhibitor 2A"
-ds:H00004,Chronic myeloid leukemia (CML),hsa:2122,"MECOM, AML1-EVI-1, EVI1, MDS1, MDS1-EVI1, PRDM3; MDS1 and EVI1 complex locus; K04462 ecotropic virus integration site 1 protein"
-ds:H00004,Chronic myeloid leukemia (CML),hsa:25,"ABL1, ABL, JTK7, bcr/abl, c-ABL, c-ABL1, p150, v-abl; ABL proto-oncogene 1, non-receptor tyrosine kinase (EC:2.7.10.2); K06619 abelson tyrosine-protein kinase 1 [EC:2.7.10.2]"
-ds:H00004,Chronic myeloid leukemia (CML),hsa:5925,"RB1, OSRC, PPP1R130, RB, p105-Rb, pRb, pp110; retinoblastoma 1; K06618 retinoblastoma-associated protein"
-ds:H00004,Chronic myeloid leukemia (CML),hsa:613,"BCR, ALL, BCR1, CML, D22S11, D22S662, PHL; breakpoint cluster region (EC:2.7.11.1); K08878 breakpoint cluster region protein [EC:2.7.11.1]"
-ds:H00004,Chronic myeloid leukemia (CML),hsa:7157,"TP53, BCC7, LFS1, P53, TRP53; tumor protein p53; K04451 tumor protein p53"
-ds:H00004,Chronic myeloid leukemia (CML),hsa:7490,"WT1, AWT1, EWS-WT1, GUD, NPHS4, WAGR, WIT-2, WT33; Wilms tumor 1; K09234 Wilms tumor protein 1"
-ds:H00004,Chronic myeloid leukemia (CML),hsa:861,"RUNX1, AML1, AML1-EVI-1, AMLCR1, CBFA2, EVI-1, PEBP2aB; runt-related transcription factor 1; K08367 runt-related transcription factor 1"
