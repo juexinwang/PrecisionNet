@@ -18,6 +18,7 @@ public class ShortestPath {
 	double maxpath;
 	double confOpvalue;
 	double theta;
+	double confidenceWeight;
 	
 	public ShortestPath(Network network, Hashtable confidenceSet){
 		this.alphavalue = 1.0/(network.getNodes().size()+1);
@@ -26,11 +27,15 @@ public class ShortestPath {
 		this.maxpath=500;
 		this.confOpvalue=confidenceSet.size();
 		this.theta=1.0;
+		this.confidenceWeight=-100.0;
 		
 	}
+
+	
 	
 	/**
-	 * dijkstra algorithm
+	 * Obsolete 
+	 * dijkstra algorithm for v, v1, v2, v3 for finding max
 	 * @param adjmatrix
 	 * @param nodes
 	 * @param confidenceSet
@@ -40,7 +45,7 @@ public class ShortestPath {
 	 * @param targetFuncTag: 0 for simplest distance, 1 for confidence/nodesnumber
 	 * @return shortest path
 	 */
-	public Vector<Path> dijkstra(Network net, Hashtable confidenceSet, Vector startPoint, Vector endPoint, String categoryStr)
+	public Vector<Path> dijkstra_findmax(Network net, Hashtable confidenceSet, Vector startPoint, Vector endPoint, String categoryStr)
 	{
 		for(Map.Entry<Interaction,Integer> i:net.interactions.entrySet())
 		{
@@ -99,7 +104,7 @@ public class ShortestPath {
 			         v.num= v.getNodename().equals(start.getNodename())? 1 : 0;	         
 			         q.add(v);
 			      }
-				dijkstra(q,categoryStr);
+				dijkstra_findmax(q,categoryStr);
 				System.out.println("getting path "+num);
 				num++;
 ///*				
@@ -139,7 +144,8 @@ public class ShortestPath {
 		//TODO
 		return paths;
 	}
-	public void dijkstra(Vector<Node> q, String categoryStr)
+	
+	public void dijkstra_findmax(Vector<Node> q, String categoryStr)
 	{
 		
 		Node u;
@@ -177,6 +183,130 @@ public class ShortestPath {
 		for(int j=0;j<q.size();j++)
 		{
 			if(q.get(j).value>=value)
+			{
+				index=j;
+				value=q.get(j).value;
+			}
+		}
+		Node ans=q.get(index);
+		q.remove(index);
+		return ans;
+	}
+	
+	
+	/**
+	 * dijkstra algorithm
+	 * @param adjmatrix
+	 * @param nodes
+	 * @param confidenceSet
+	 * @param startPoint
+	 * @param endPoint
+	 * @param storeTag: 0 for 1->1, 1 for N->N
+	 * @param targetFuncTag: 0 for simplest distance, 1 for confidence/nodesnumber
+	 * @return shortest path
+	 */
+	public Vector<Path> dijkstra(Network net, Hashtable confidenceSet, Vector startPoint, Vector endPoint, String categoryStr)
+	{
+		for(Map.Entry<Interaction,Integer> i:net.interactions.entrySet())
+		{
+			i.getKey().getNodeA().down.add(i.getKey().getNodeB());
+		}
+		Vector<Path> paths = new Vector();
+		int num=1;
+		for(int i=0;i<startPoint.size();i++)
+		{
+			Node start=new Node();
+			Node end=new Node();
+			if (!net.containsKey(startPoint.get(i).toString()))
+			{
+				System.err.printf("Graph doesn't contain start node \"%s\"\n", startPoint.get(i).toString());
+		    }
+			else
+			{
+				start=net.getByName(startPoint.get(i).toString());
+			}
+			
+				Vector<Node> q =new Vector();
+				for (Node v : net.nodes.values()) {
+					 v.previous = v.getNodename().equals(start.getNodename())? start : null;
+					 if(v.getNodename().equals(start.getNodename()))
+					 {
+						 //Initial target function for start genes
+						 v.value=targetFuncinitial(v, confidenceSet, categoryStr);
+					 }
+					 else
+					 {
+						 v.value=Integer.MAX_VALUE;
+					 }
+			         v.num= v.getNodename().equals(start.getNodename())? 1 : 0;	         
+			         q.add(v);
+			      }
+				dijkstra(q,categoryStr);
+				System.out.println("getting path "+num);
+				num++;
+///*				
+				for(int j=0;j<endPoint.size();j++)
+				{	
+					if (!net.containsKey(endPoint.get(j).toString()))
+					{
+						System.err.printf("Graph doesn't contain end node \"%s\"\n", endPoint.get(j).toString());
+				    }
+					else
+					{
+						end=net.getByName(endPoint.get(j).toString());
+					}
+					Path p=new Path();
+					p.getPath(net, end.getNodename(),confidenceSet);
+					String from=p.nodes.get(p.nodes.size()-1).getNodename();
+					if(from.equals(start.getNodename()))
+					{
+						p.value=end.value;
+						paths.add(p);
+					}
+				}			
+		}
+		
+		//TODO
+		return paths;
+	}
+	public void dijkstra(Vector<Node> q, String categoryStr)
+	{
+		
+		Node u;
+		while(!q.isEmpty())
+		{
+			u=pullLowest(q);
+			//if (u.value == 0) break;
+	//		for(Map.Entry<Node, Integer> a : u.adjNodes.entrySet())
+			for(Node v : u.down)
+			{
+				
+				if(!q.contains(v))
+				{
+					continue;
+				}
+	//			v=a.getKey();
+	//			int temp=u.value+a.getValue();
+				double temp=targetFunc(u,v,categoryStr);
+				if (temp < v.value) { // shorter path to neighbour found
+		               q.remove(v);
+		               v.value = temp;
+		               v.previous = u;
+		               v.num=u.num+u.adjNodes.get(v);
+		               q.add(v);
+		            } 
+			}
+		}
+		
+	}
+	public Node pullLowest(Vector<Node> q)
+	{
+		
+		int index=0;
+		double value=Integer.MAX_VALUE;
+		for(int j=0;j<q.size();j++)
+		{
+			if(q.get(j).value<=value)
 			{
 				index=j;
 				value=q.get(j).value;
@@ -406,6 +536,17 @@ public class ShortestPath {
 			}
 			
 		}
+		else if(f.equals("v4")){//Totally different add weights for dynamic programming
+			if(S.cla.contains(E))
+			{
+				value=S.value+0+S.adjNodes.get(E);
+			}
+			else
+			{
+				value=S.value+E.weight*confidenceWeight+S.adjNodes.get(E);
+			}
+			
+		}
 		
 		
 	//	E.value=value;
@@ -442,6 +583,14 @@ public class ShortestPath {
 			 if(confidenceSet.containsKey(v))
 			 {
 				 v.value=(1+alphavalue)*multiOpvalue*(Math.log(1/tmpOpvalue));
+			 }
+			
+		}
+		else if(f.equals("v4")){
+			 v.value=0;
+			 if(confidenceSet.containsKey(v))
+			 {
+				v.value=confidenceWeight;
 			 }
 			
 		}

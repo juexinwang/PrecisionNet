@@ -15,9 +15,13 @@ public class ShowResults {
 	 * show path as results
 	 * @param path
 	 */
-	public void showPath(Vector<Path> paths, String file, Network net, boolean collapse, double percent){
+	public void showPath(Vector<Path> paths, String file, Network net, boolean collapse, double percent, boolean pathflag){
 		try {
 			Collections.sort(paths);
+			//Use pathflag, if true(v4), we sort Increment, or decrement 
+			if(pathflag){
+				Collections.reverse(paths);
+			}
 			
 			int per=(int)(paths.size()*percent);
 			List<Path> subpaths=paths.subList(0, per);
@@ -466,14 +470,25 @@ public class ShowResults {
 		
 		//TODO
 	}
-	public void showMulti(Vector<Path> paths,String dir, String file, Network net, boolean collapse,double[] multi)
+	
+	/**
+	 * 
+	 * @param paths
+	 * @param dir
+	 * @param file
+	 * @param net
+	 * @param collapse
+	 * @param multi
+	 * @param pathflag v4 is true collect smallest path; or collect largest
+	 */
+	public void showMulti(Vector<Path> paths,String dir, String file, Network net, boolean collapse,double[] multi,boolean pathflag)
 	{
 		for(int i=0;i<multi.length;i++)
 		{
 			int t=(int)(multi[i]*100);
 			String tem=String.valueOf(t);
 			String name=dir+"top"+tem+"percent_"+file;
-			showPath(paths,name,net,collapse,multi[i]);
+			showPath(paths,name,net,collapse,multi[i],pathflag);
 		}
 	}
 	

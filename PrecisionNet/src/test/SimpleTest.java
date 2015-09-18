@@ -17,7 +17,8 @@ public class SimpleTest {
 	
 	void doTest(){
 		//String inputfolder= "resource/Data for Juexin/";
-		String inputfolder= "C:\\Users\\JiangYX\\Dropbox\\TCBI-DigitalBiology-Labs\\Data for Juexin 18 maps\\";
+		String inputfolder= "C:\\Users\\wangjue\\Dropbox\\TCBI-DigitalBiology-Labs\\Data for Juexin 18 maps\\";
+		//String inputfolder= "C:\\Users\\wangjue\\git\\PrecisionNet\\PrecisionNet\\resource\\test\\";
 		
 		
 		//input file
@@ -77,13 +78,17 @@ public class SimpleTest {
 		//test Dijstra
 		ShortestPath sp = new ShortestPath(inNetwork, confidenceSet);
 		//Use different target function;
-		String str = "v2";
+		String str = "v4";
 		Vector<Path> paths=sp.dijkstra(inNetwork, confidenceSet, startPoint, endPoint, str);
 		ShowResults sh=new ShowResults();
 		//sh.showPath(paths,"resource/Data for Juexin/results/top10percent_collapse.txt",inNetwork,true,0.1);
 		double[] sz={0.1,0.2,0.3,0.4,0.5,1};
 //		sh.showMulti(paths,"resource/Data for Juexin/newresults/", "collapse.txt", inNetwork, true, sz);
-		sh.showMulti(paths,"resource/Data for Juexin/newresults/", "uncollapse.txt", inNetwork, false, sz);
+		boolean pathflag=false;
+		if(str.equals("v4")){
+			pathflag=true;
+		}
+		sh.showMulti(paths,"resource/Data for Juexin/newresults/", "uncollapse.txt", inNetwork, false, sz, pathflag);
 		/*	
 		//test astar
 		ShortestPath sp2 = new ShortestPath();
