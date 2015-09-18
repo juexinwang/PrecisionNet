@@ -79,15 +79,20 @@ public class SimpleTest {
 		ShortestPath sp = new ShortestPath(inNetwork, confidenceSet);
 		//Use different target function;
 		String str = "v4";
-		Vector<Path> paths=sp.dijkstra(inNetwork, confidenceSet, startPoint, endPoint, str);
-		ShowResults sh=new ShowResults();
-		//sh.showPath(paths,"resource/Data for Juexin/results/top10percent_collapse.txt",inNetwork,true,0.1);
-		double[] sz={0.1,0.2,0.3,0.4,0.5,1};
-//		sh.showMulti(paths,"resource/Data for Juexin/newresults/", "collapse.txt", inNetwork, true, sz);
 		boolean pathflag=false;
 		if(str.equals("v4")){
 			pathflag=true;
 		}
+		Vector<Path> paths;
+		if(pathflag){
+			paths=sp.dijkstra(inNetwork, confidenceSet, startPoint, endPoint, str);
+		}else{
+			paths=sp.dijkstra_findmax(inNetwork, confidenceSet, startPoint, endPoint, str);
+		}
+		ShowResults sh=new ShowResults();
+		//sh.showPath(paths,"resource/Data for Juexin/results/top10percent_collapse.txt",inNetwork,true,0.1);
+		double[] sz={0.1,0.2,0.3,0.4,0.5,1};
+//		sh.showMulti(paths,"resource/Data for Juexin/newresults/", "collapse.txt", inNetwork, true, sz);
 		sh.showMulti(paths,"resource/Data for Juexin/newresults/", "uncollapse.txt", inNetwork, false, sz, pathflag);
 		/*	
 		//test astar
