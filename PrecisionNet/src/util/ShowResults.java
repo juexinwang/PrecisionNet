@@ -492,6 +492,110 @@ public class ShowResults {
 		}
 	}
 	
+	
+	/**
+	 * output paths in jason file type, directly call from main function
+	 * @param paths
+	 * @param file
+	 * @param net
+	 * @param collapse
+	 * @param percent
+	 * @param pathflag
+	 */
+	public void showPath2Jason(Vector<Path> paths, String file, Network net, boolean collapse, double percent, boolean pathflag){
+		try {
+			Collections.sort(paths);
+			//Use pathflag, if true(v4), we sort Increment, or decrement 
+			if(pathflag){
+				Collections.reverse(paths);
+			}
+			
+			int per=(int)(paths.size()*percent);
+			List<Path> subpaths=paths.subList(0, per);
+			
+			
+			
+			HashMap hm = new HashMap();
+			
+			FileWriter writer = new FileWriter(file);
+			writer.write("{\n\"nodes\":[\n");
+			
+			int numi=0;
+			for(Map.Entry<String, Node> i : net.nodes.entrySet())
+			{
+				String tmpstr = i.getValue().getNodename();
+				tmpstr=tmpstr.split("#")[1].split(">")[0];
+				writer.write("{ \"name\":\""+tmpstr+"\",\"type\":\""+"\"},\n");
+				hm.put(tmpstr, numi++);
+				//System.out.println(numi+"\n");
+			}
+			
+			writer.write("\n],\"edges\":[\n");
+			//no collapse
+			if(collapse==false)
+			{
+				for(int i=0;i<subpaths.size();i++)
+			    {
+				    Path current=subpaths.get(i);
+				    int line=0;
+		            int length=current.nodes.size();
+		            if (length==1)
+		            {
+		            	String tmpstr = current.nodes.get(0).getNodename();
+		            	tmpstr=tmpstr.split("#")[1].split(">")[0];
+		            	writer.write("{\"source\":0,\"target\":0,\"relation\":\"self\"},\n");
+		            	line++;
+		            	
+		            } 
+		            else
+		            {
+		            	for(int j=length-1;j>=1;j--)
+			            {
+		            		if(current.nodes.get(j-1).cla.isEmpty())
+		            		{	
+		            			String tmpstr = current.nodes.get(j).getNodename();
+		            			tmpstr=tmpstr.split("#")[1].split(">")[0];
+		            			String tmpstr1 =current.nodes.get(j-1).getNodename();
+		            			tmpstr1=tmpstr1.split("#")[1].split(">")[0];
+		            			String tmpstr2 =net.getInteraction(current.nodes.get(j), current.nodes.get(j-1)).type;
+		            			tmpstr2=tmpstr2.split("#")[1].split(">")[0];
+		            			writer.write("{\"source\":"+hm.get(tmpstr)+",\"target\":"+hm.get(tmpstr1)+",\"relation\":\""+ tmpstr2+"\"},\n");
+			            	  line++;
+		            		}
+		            		else
+		            		{
+		            			int u=j-2;
+		            			String tmpstr = current.nodes.get(j).getNodename();
+		            			tmpstr=tmpstr.split("#")[1].split(">")[0];
+		            			String tmpstr1 =current.nodes.get(u).getNodename();
+		            			tmpstr1=tmpstr1.split("#")[1].split(">")[0];
+		            			writer.write("{\"source\":"+hm.get(tmpstr)+",\"target\":"+hm.get(tmpstr1)+",\"relation\":\"same_class\"},\n");
+				            	line++;				            	
+				            	j--;
+		            		}
+			            }
+		            }
+		            
+			    }
+			}
+			//collapse
+			else
+			{
+				//TODO
+				//comes from the original function showpath
+			    
+			}
+				
+			writer.write("]\n}\n");
+		    writer.close();
+		} catch (IOException e) {
+            e.printStackTrace();
+        }
+		
+		//TODO
+	}
+	
+	
 	/**
 	 * show path as results
 	 * @param path
@@ -517,6 +621,8 @@ public class ShowResults {
 	public void showNetwork(Network network, String filename){
 		//TODO
 	}
+
+	
 	
 
 }

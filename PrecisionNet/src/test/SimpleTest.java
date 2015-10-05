@@ -60,6 +60,7 @@ public class SimpleTest {
 		//test startPoint
 		//Vector startPoint = fi.readStartVectorfromFile("resource/Data for Juexin/1 root_nodes_7maps.csv",inNetwork);
 		Vector startPoint = fi.readStartVectorfromFile(inputfolder+"1 root_nodes_18maps.csv",inNetwork);
+		//Vector startPoint = fi.readStartVectorfromFile("E:\\Dmitry\\testsource.txt",inNetwork);
 //		for(int i=0;i<startPoint.size();i++)
 //		{
 //			System.out.println(startPoint.get(i));
@@ -68,6 +69,7 @@ public class SimpleTest {
 		//test endPoint
 		//Vector endPoint = fi.readEndVectorfromFile("resource/Data for Juexin/2 leaf_nodes_7maps.csv",inNetwork);
 		Vector endPoint = fi.readEndVectorfromFile(inputfolder+"2 leaf_nodes_18maps.csv",inNetwork);
+		//Vector endPoint = fi.readEndVectorfromFile("E:\\Dmitry\\testtarget.txt",inNetwork);
 //		for(int i=0;i<endPoint.size();i++)
 //		{
 //			System.out.println(endPoint.get(i));
@@ -94,6 +96,9 @@ public class SimpleTest {
 		double[] sz={0.1,0.2,0.3,0.4,0.5,1};
 //		sh.showMulti(paths,"resource/Data for Juexin/newresults/", "collapse.txt", inNetwork, true, sz);
 		sh.showMulti(paths,"resource/Data for Juexin/newresults/", "uncollapse.txt", inNetwork, false, sz, pathflag);
+		double percent =1.0;
+		sh.showPath2Jason(paths, "resource/Data for Juexin/newresults/jason/all.jason", inNetwork, false, percent, pathflag);
+		
 		/*	
 		//test astar
 		ShortestPath sp2 = new ShortestPath();
