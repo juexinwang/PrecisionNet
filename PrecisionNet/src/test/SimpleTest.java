@@ -9,6 +9,11 @@ import java.util.*;
 
 /**
  * Used for Test
+ * 
+ * Typical Running time on 18 maps, hundreds of start and end genes.
+ * Running on i7-3770 CPU 3.40 GHz, Memory 8.00GB
+ * Searching Time : 17.879 seconds
+ * Output Time : 162.296 seconds
  * @author wangjue
  *
  */
@@ -16,6 +21,7 @@ import java.util.*;
 public class SimpleTest {
 	
 	void doTest(){
+		long startTime=System.currentTimeMillis();
 		//String inputfolder= "resource/Data for Juexin/";
 		String inputfolder= "C:\\Users\\wangjue\\Dropbox\\TCBI-DigitalBiology-Labs\\Data for Juexin 18 maps\\";
 		//String inputfolder= "C:\\Users\\wangjue\\git\\PrecisionNet\\PrecisionNet\\resource\\test\\";
@@ -91,13 +97,17 @@ public class SimpleTest {
 		}else{
 			paths=sp.dijkstra_findmax(inNetwork, confidenceSet, startPoint, endPoint, str);
 		}
+		long endTime=System.currentTimeMillis();
+		System.out.println("\nSearching Time : "+(endTime-startTime)/1000f+" seconds\n");
 		ShowResults sh=new ShowResults();
 		//sh.showPath(paths,"resource/Data for Juexin/results/top10percent_collapse.txt",inNetwork,true,0.1);
 		double[] sz={0.1,0.2,0.3,0.4,0.5,1};
 //		sh.showMulti(paths,"resource/Data for Juexin/newresults/", "collapse.txt", inNetwork, true, sz);
 		sh.showMulti(paths,"resource/Data for Juexin/newresults/", "uncollapse.txt", inNetwork, false, sz, pathflag);
-		double percent =1.0;
+		double percent =0.1;
 		sh.showPath2Jason(paths, "resource/Data for Juexin/newresults/jason/all.jason", inNetwork, false, percent, pathflag);
+		long outputTime=System.currentTimeMillis();
+		System.out.println("\nOutput Time : "+(outputTime-startTime)/1000f+" seconds\n");
 		
 		/*	
 		//test astar
