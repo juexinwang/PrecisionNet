@@ -516,22 +516,13 @@ public class ShowResults {
 			
 			
 			HashMap hm = new HashMap();
+			HashMap hmm = new HashMap();
+			FileWriter writer = new FileWriter(file);			
 			
-			FileWriter writer = new FileWriter(file);
-			writer.write("{\n\"nodes\":[\n");
-			
-			int numi=0;
-			for(Map.Entry<String, Node> i : net.nodes.entrySet())
-			{
-				String tmpstr = i.getValue().getNodename();
-				tmpstr=tmpstr.split("#")[1].split(">")[0];
-				writer.write("{ \"name\":\""+tmpstr+"\",\"type\":\""+"\"},\n");
-				hm.put(tmpstr, numi++);
-				//System.out.println(numi+"\n");
-			}
-			
-			writer.write("\n],\"edges\":[\n");
 			//no collapse
+			int nodeNumber=0;
+			StringBuilder pathString = new StringBuilder();
+			pathString.append("\n],\"edges\":[\n");
 			if(collapse==false)
 			{
 				for(int i=0;i<subpaths.size();i++)
@@ -543,7 +534,12 @@ public class ShowResults {
 		            {
 		            	String tmpstr = current.nodes.get(0).getNodename();
 		            	tmpstr=tmpstr.split("#")[1].split(">")[0];
-		            	writer.write("{\"source\":0,\"target\":0,\"relation\":\"self\"},\n");
+		            	if(!hm.containsKey(tmpstr)){
+		            		hm.put(tmpstr, nodeNumber);
+		            		hmm.put(nodeNumber,tmpstr);
+		            		nodeNumber++;
+		            	}
+		            	pathString.append("{\"source\":"+hm.get(tmpstr)+",\"target\":"+hm.get(tmpstr)+",\"relation\":\"self\"},\n");
 		            	line++;
 		            	
 		            } 
@@ -559,7 +555,17 @@ public class ShowResults {
 		            			tmpstr1=tmpstr1.split("#")[1].split(">")[0];
 		            			String tmpstr2 =net.getInteraction(current.nodes.get(j), current.nodes.get(j-1)).type;
 		            			tmpstr2=tmpstr2.split("#")[1].split(">")[0];
-		            			writer.write("{\"source\":"+hm.get(tmpstr)+",\"target\":"+hm.get(tmpstr1)+",\"relation\":\""+ tmpstr2+"\"},\n");
+		            			if(!hm.containsKey(tmpstr)){
+				            		hm.put(tmpstr, nodeNumber);
+				            		hmm.put(nodeNumber,tmpstr);
+				            		nodeNumber++;
+				            	}
+		            			if(!hm.containsKey(tmpstr1)){
+				            		hm.put(tmpstr1, nodeNumber);
+				            		hmm.put(nodeNumber,tmpstr1);
+				            		nodeNumber++;
+				            	}
+		            			pathString.append("{\"source\":"+hm.get(tmpstr)+",\"target\":"+hm.get(tmpstr1)+",\"relation\":\""+tmpstr2+"\"},\n");
 			            	  line++;
 		            		}
 		            		else
@@ -569,7 +575,17 @@ public class ShowResults {
 		            			tmpstr=tmpstr.split("#")[1].split(">")[0];
 		            			String tmpstr1 =current.nodes.get(u).getNodename();
 		            			tmpstr1=tmpstr1.split("#")[1].split(">")[0];
-		            			writer.write("{\"source\":"+hm.get(tmpstr)+",\"target\":"+hm.get(tmpstr1)+",\"relation\":\"same_class\"},\n");
+		            			if(!hm.containsKey(tmpstr)){
+				            		hm.put(tmpstr, nodeNumber);
+				            		hmm.put(nodeNumber,tmpstr);
+				            		nodeNumber++;
+				            	}
+		            			if(!hm.containsKey(tmpstr1)){
+				            		hm.put(tmpstr1, nodeNumber);
+				            		hmm.put(nodeNumber,tmpstr1);
+				            		nodeNumber++;
+				            	}
+		            			pathString.append("{\"source\":"+hm.get(tmpstr)+",\"target\":"+hm.get(tmpstr1)+",\"relation\":\"same_class\"},\n");
 				            	line++;				            	
 				            	j--;
 		            		}
@@ -585,8 +601,18 @@ public class ShowResults {
 				//comes from the original function showpath
 			    
 			}
-				
-			writer.write("]\n}\n");
+			pathString.append("]\n}\n");
+			
+			
+			StringBuilder nodeString=new StringBuilder();
+			nodeString.append("{\n\"nodes\":[\n");
+
+			for(int i=0;i<nodeNumber;i++){
+				 nodeString.append("{ \"name\":\""+hmm.get(i)+"\",\"type\":\""+"\"},\n");
+			}			
+			
+			writer.write(nodeString.toString());
+			writer.write(pathString.toString());
 		    writer.close();
 		} catch (IOException e) {
             e.printStackTrace();
