@@ -23,7 +23,7 @@ public class SimpleTest {
 	void doTest(){
 		long startTime=System.currentTimeMillis();
 		//String inputfolder= "resource/Data for Juexin/";
-		String inputfolder= "C:\\Users\\wangjue\\Dropbox\\TCBI-DigitalBiology-Labs\\Data for Juexin 18 maps\\";
+		String inputfolder= "C:\\Users\\JiangYX\\Dropbox\\TCBI-DigitalBiology-Labs\\Data for Juexin 18 maps\\";
 		//String inputfolder= "C:\\Users\\wangjue\\git\\PrecisionNet\\PrecisionNet\\resource\\test\\";
 		
 		
@@ -103,9 +103,13 @@ public class SimpleTest {
 		//sh.showPath(paths,"resource/Data for Juexin/results/top10percent_collapse.txt",inNetwork,true,0.1);
 		double[] sz={0.1,0.2,0.3,0.4,0.5,1};
 //		sh.showMulti(paths,"resource/Data for Juexin/newresults/", "collapse.txt", inNetwork, true, sz);
-		sh.showMulti(paths,"resource/Data for Juexin/newresults/", "uncollapse.txt", inNetwork, false, sz, pathflag);
+//		sh.showMulti(paths,"resource/Data for Juexin/newresults2/", "uncollapse.txt", inNetwork, false, sz, pathflag);
+		
+		String indir= "C:\\Users\\JiangYX\\Dropbox\\TCBI-DigitalBiology-Labs\\Data for Juexin 18 maps\\personal";
+		String outdir="resource/Data for Juexin/newresults2/";
+		sh.showPersonalPath(paths, indir, outdir, confidenceSet, inNetwork);
 		double percent =0.1;
-		sh.showPath2Jason(paths, "resource/Data for Juexin/newresults/jason/all.jason", inNetwork, false, percent, pathflag);
+//		sh.showPath2Jason(paths, "resource/Data for Juexin/newresults/jason/all.jason", inNetwork, false, percent, pathflag);
 		long outputTime=System.currentTimeMillis();
 		System.out.println("\nOutput Time : "+(outputTime-startTime)/1000f+" seconds\n");
 		

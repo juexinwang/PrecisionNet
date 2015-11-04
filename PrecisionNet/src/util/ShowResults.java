@@ -2,6 +2,8 @@ package util;
 import entry.*;
 
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.io.*;
 
 /**
@@ -17,14 +19,35 @@ public class ShowResults {
 	 */
 	public void showPath(Vector<Path> paths, String file, Network net, boolean collapse, double percent, boolean pathflag){
 		try {
-			Collections.sort(paths);
+	//		Collections.sort(paths);		
+			List<Path> rename_paths=paths.subList(0, paths.size());
+			System.out.println(paths.size());
+			if(!pathflag)
+			{		
+				Collections.sort(rename_paths,new Comparator<Path>(){
+		            public int compare(Path arg0, Path arg1) {
+		//                return arg1.value.compareTo(arg0.value);
+		            	double tem=(arg1.getValue() - arg0.getValue())*10000000;
+		              return (int)tem;
+		            }
+		        });
+			}
+			
+			
 			//Use pathflag, if true(v4), we sort Increment, or decrement 
 			if(pathflag){
-				Collections.reverse(paths);
+	//			Collections.reverse(paths);
+				Collections.sort(rename_paths,new Comparator<Path>(){
+		            public int compare(Path arg0, Path arg1) {
+		//                return arg1.value.compareTo(arg0.value);
+		            	double tem=(arg0.value - arg1.value)*10000000;
+		              return (int)tem;
+		            }
+		        });
 			}
 			
 			int per=(int)(paths.size()*percent);
-			List<Path> subpaths=paths.subList(0, per);
+			List<Path> subpaths=rename_paths.subList(0, per);
 			
 			
 			FileWriter writer = new FileWriter(file);
@@ -492,7 +515,158 @@ public class ShowResults {
 		}
 	}
 	
-	
+	public void showPersonalPath(Vector<Path> paths, String indir, String outdir, Hashtable<Node, Integer> confi, Network net)
+	{
+		System.out.println(confi.size());
+		try{
+	//	  String path="d:/downloads/";
+		  File file=new File(indir);
+		  File[] tempList = file.listFiles();
+		  System.out.println("该目录下对象个数："+tempList.length);
+		  for (int i = 0; i < tempList.length; i++) 
+		  {
+			  if (tempList[i].isFile()) 
+			  {
+				  System.out.println("文     件："+tempList[i]);
+				  String[] tem=tempList[i].toString().split("\\\\");
+				  String name=tem[tem.length-1];
+				  String[] t=name.split(".csv");
+				  String netfile=outdir+t[0]+".txt";
+				  String infofile=outdir+t[0]+"_info.txt";
+				  FileWriter writer = new FileWriter(netfile);
+				  FileWriter writer3 = new FileWriter(infofile);
+				  
+				  File rfile=new File(tempList[i].toString());
+				  BufferedReader reader = new BufferedReader(new FileReader(rfile));
+				  String tempString = null;
+				  
+				  Vector<String> vec=new Vector();
+				  String pattern = ",(hsa:\\d*),";
+		    	  Pattern r=Pattern.compile(pattern);
+		    	  Hashtable phsa=new Hashtable();
+				  while ((tempString = reader.readLine()) != null) 
+		    	  {
+					  Matcher m = r.matcher(tempString);
+					  if(m.find())
+		    			{
+		    				tempString=m.group(1);
+		    				String pattern2 =":";
+		    				String replace="_";
+		    				Pattern r2=Pattern.compile(pattern2);
+		    				Matcher m2=r2.matcher(tempString);
+		    				tempString=m2.replaceAll(replace);
+		    				phsa.put(tempString, 1);
+		    				System.out.println(tempString);
+		    			}
+		    			else
+		    			{
+		    				continue;
+		    			}
+	//				  if((net.nodes.containsKey(tempString))&&(confi.contains(net.getByName(tempString))))
+	//				  {
+	//					  vec.add(tempString);
+	//				  }
+		    	    	
+		    	  }
+				 
+				  Pattern p=Pattern.compile("Gene_(hsa_[^_>]*?)[_>]");			        
+				  for(Map.Entry<Node, Integer> x : confi.entrySet())
+				  {
+	//				  System.out.println(x.getKey().getNodename());
+					  Matcher pm=p.matcher(x.getKey().getNodename());
+					  while(pm.find())
+					  {
+		//				  System.out.println(1);
+						  if(phsa.containsKey(pm.group(1)))
+						  {
+							  System.out.println(x.getKey().getNodename());
+							  vec.add(x.getKey().getNodename());
+						  }
+					  }
+					  
+				  }//personal confidence set
+				  System.out.println("personal confidence");
+				  
+				  List<Path> subpaths=new ArrayList();
+				  for(int j=0;j<paths.size();j++)
+				  {
+					  double personconfi=0;
+					  for(int w=0;w<vec.size();w++)
+					  {
+						  if(paths.get(j).nodes.contains(net.getByName(vec.get(w))))
+						  {
+							  if(!subpaths.contains(paths.get(j)))
+							  {
+								  subpaths.add(paths.get(j));
+							  }
+							  paths.get(j).percent=(++personconfi)/(paths.get(j).confinum);
+						  }
+					  }
+					  
+				  }//personal paths
+				  System.out.println("personal paths");
+				  
+				  Collections.sort(subpaths,new Comparator<Path>(){
+			            public int compare(Path arg0, Path arg1) {
+			            	double tem=(arg1.percent - arg0.percent)*10000000;
+			              return (int)tem;
+			            }
+			        });//sort personal paths, from big to small(arg1 first...)
+				  
+				  
+				  for(int j=0;j<subpaths.size();j++)
+				    {
+					    Path current=subpaths.get(j);
+					    int line=0;
+			            int length=current.nodes.size();
+			            if (length==1)
+			            {
+			            	writer.write(current.nodes.get(0).getNodename()+" "+"<self>"+" "+current.nodes.get(0).getNodename()+" ."+" "+t[0]);
+			            	writer.write("\r\n");
+			            	line++;
+			            	
+			            } 
+			            else
+			            {
+			            	for(int w=length-1;w>=1;w--)
+				            {
+			            		if(current.nodes.get(w-1).cla.isEmpty())
+			            		{		            		
+				            	  writer.write(current.nodes.get(w).getNodename()+" "+net.getInteraction(current.nodes.get(w), current.nodes.get(w-1)).type+" "+current.nodes.get(w-1).getNodename()+" ."+" "+t[0]);
+				            	  writer.write("\r\n");
+				            	  line++;
+			            		}
+			            		else
+			            		{
+			            			int u=w-2;
+			            			writer.write(current.nodes.get(w).getNodename()+" "+"<same_class>"+" "+current.nodes.get(u).getNodename()+" ."+" "+t[0]);
+					            	writer.write("\r\n");
+					            	line++;				            	
+					            	w--;
+			            		}
+				            }
+			            }
+			    //        writer3.write(line+" "+String.valueOf(current.value)+" "+current.confinum);
+			            writer3.write(line+" "+String.valueOf(current.percent));
+			            writer3.write("\r\n");
+				    }
+				writer.close();
+				writer3.close();
+				  
+			  }
+			  else
+			  {
+				  System.out.println(333);
+			  }
+			  
+		   
+		  }//for each personal information
+		 
+		}catch (IOException e) {
+            e.printStackTrace();
+        }
+		
+	}
 	/**
 	 * output paths in jason file type, directly call from main function
 	 * @param paths
@@ -504,14 +678,30 @@ public class ShowResults {
 	 */
 	public void showPath2Jason(Vector<Path> paths, String file, Network net, boolean collapse, double percent, boolean pathflag){
 		try {
-			Collections.sort(paths);
-			//Use pathflag, if true(v4), we sort Increment, or decrement 
-			if(pathflag){
-				Collections.reverse(paths);
-			}
-			
-			int per=(int)(paths.size()*percent);
-			List<Path> subpaths=paths.subList(0, per);
+//			Collections.sort(paths);		
+				List<Path> rename_paths=paths.subList(0, paths.size());
+				Collections.sort(rename_paths,new Comparator<Path>(){
+		            public int compare(Path arg0, Path arg1) {
+		//                return arg1.value.compareTo(arg0.value);
+		            	double tem=(arg1.value - arg0.value)*10000000;
+		              return (int)tem;
+		            }
+		        });
+				
+				//Use pathflag, if true(v4), we sort Increment, or decrement 
+				if(pathflag){
+		//			Collections.reverse(paths);
+					Collections.sort(rename_paths,new Comparator<Path>(){
+			            public int compare(Path arg0, Path arg1) {
+			//                return arg1.value.compareTo(arg0.value);
+			            	double tem=(arg0.value - arg1.value)*10000000;
+			              return (int)tem;
+			            }
+			        });
+				}
+				
+				int per=(int)(paths.size()*percent);
+				List<Path> subpaths=rename_paths.subList(0, per);
 			
 			
 			

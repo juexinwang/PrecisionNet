@@ -12,19 +12,21 @@ import entry.*;
  *
  */
 
-public class Path implements Comparable<Path>{
+public class Path{
 //	LinkedList<Node> nodes;
 	public Vector<Node> nodes=new Vector();
 	public double value;
+	public double percent;
+	
 	Vector valueVec;
 	Vector<Interaction> interactions;
 	public int confinum=0;
 	
-	public int compareTo(Path path)
-	{  
-		double tem=(path.value - this.value)*10000000;
-        return (int)tem;  
-    } 
+//	public int compareTo(Path path)
+//	{  
+//		double tem=(path.value - this.value)*10000000;
+//        return (int)tem;  
+ //   } 
 	
 	public Vector<Node> getPath(Network net, String nodename, Hashtable c) {
 		Node end=net.getByName(nodename);

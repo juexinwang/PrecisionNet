@@ -47,6 +47,8 @@ public class ShortestPath {
 	 */
 	public Vector<Path> dijkstra_findmax(Network net, Hashtable confidenceSet, Vector startPoint, Vector endPoint, String categoryStr)
 	{
+		System.out.println("startpoint "+startPoint.size());
+		System.out.println("endPoint "+endPoint.size());
 		for(Map.Entry<Interaction,Integer> i:net.interactions.entrySet())
 		{
 //			if(confidenceSet.contains(i.getKey().getNodeA().getNodename())&&confidenceSet.contains(i.getKey().getNodeB().getNodename()))
@@ -121,7 +123,7 @@ public class ShortestPath {
 					Path p=new Path();
 					p.getPath(net, end.getNodename(),confidenceSet);
 					String from=p.nodes.get(p.nodes.size()-1).getNodename();
-					if(from.equals(start.getNodename()))
+					if((from.equals(start.getNodename()))&&(p.confinum>0))
 					{
 						p.value=end.value;
 						paths.add(p);
@@ -207,6 +209,8 @@ public class ShortestPath {
 	 */
 	public Vector<Path> dijkstra(Network net, Hashtable confidenceSet, Vector startPoint, Vector endPoint, String categoryStr)
 	{
+		System.out.println("startpoint "+startPoint.size());
+		System.out.println("endPoint "+endPoint.size());
 		for(Map.Entry<Interaction,Integer> i:net.interactions.entrySet())
 		{
 			i.getKey().getNodeA().down.add(i.getKey().getNodeB());
@@ -258,11 +262,12 @@ public class ShortestPath {
 					Path p=new Path();
 					p.getPath(net, end.getNodename(),confidenceSet);
 					String from=p.nodes.get(p.nodes.size()-1).getNodename();
-					if(from.equals(start.getNodename()))
+					if((from.equals(start.getNodename()))&&(p.confinum>0))
 					{
 						p.value=end.value;
 						paths.add(p);
-					}
+					}//filter out those pathes either not coming from a start gene, or not ending at an end gene
+					 //also filter out those pathes never pass a confidence gene
 				}			
 		}
 		
